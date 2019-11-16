@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_background">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:text="Forget Password"
+        android:textSize="30sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:paddingLeft="5sp"
+        android:layout_marginTop="30sp"
+        android:text="Select which contact details should we use to reset your password"
+        android:textColor="#0984e3"
+        android:textSize="23sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:layout_marginTop="30sp"
+        android:layout_marginLeft="5sp"
+        android:layout_marginRight="5sp"
+        >
+
+        <Button
+            android:id="@+id/mess"
+            android:layout_width="180sp"
+            android:layout_height="match_parent"
+            android:background="@drawable/et_box"
+            android:text="Via mess"
+            android:textColor="#A3776A6A" />
+
+        <Button
+            android:id="@+id/Gmail"
+            android:layout_width="180sp"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttonan"
+            android:text="Via Gmail"
+            android:layout_alignParentRight="true"
+            android:textColor="#A3776A6A"
+            />
+    </RelativeLayout>
+    <EditText
+        android:id="@+id/edtext"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:layout_marginTop="20sp"
+        android:hint="Enter your phone number"
+        android:background="@drawable/et_box"
+        android:paddingLeft="10sp"
+        android:layout_marginRight="5sp"
+        android:layout_marginLeft="5sp"/>
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="180sp"
+        android:layout_height="50sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30sp"
+        android:background="@drawable/btn_sign_in"
+        android:text="Submit"
+        android:textColor="#D8FFFFFF" />
+
+</LinearLayout>

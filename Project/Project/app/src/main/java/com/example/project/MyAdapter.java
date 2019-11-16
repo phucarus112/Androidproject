@@ -1,0 +1,90 @@
+package com.example.project;
+
+import android.net.Uri;
+import android.widget.ArrayAdapter;
+
+import com.example.project.APIConnect.ListToursResponse;
+import com.example.project.APIConnect.Tour;
+
+
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import retrofit2.Callback;
+
+public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView image;
+        public TextView name;
+        public TextView lich;
+        public TextView nguoi1;
+        public TextView nguoi2;
+        public TextView gia;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            image=(ImageView)itemView.findViewById(R.id.imageChinh);
+            name=(TextView)itemView.findViewById(R.id.tvName);
+            lich=(TextView)itemView.findViewById(R.id.tvLich);
+            nguoi1=(TextView)itemView.findViewById(R.id.tvNguoi1);
+            nguoi2=(TextView)itemView.findViewById(R.id.tvNguoi2);
+            gia=(TextView)itemView.findViewById(R.id.tvGia);
+        }
+    }
+    private List<Tour> mListTour;
+    public MyAdapter(List<Tour> contacts) {
+        mListTour = contacts;
+    };
+
+
+    @Override
+    public MyAdapter.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View contactView = inflater.inflate(R.layout.itemtour, parent, false);
+        ViewHolder viewHolder = new ViewHolder(contactView);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder( ViewHolder viewHolder, int position) {
+        Tour X = mListTour.get(position);
+        TextView Gia = viewHolder.gia;
+        Gia.setText(X.getMinCost()+" - "+X.getMaxCost());
+        TextView nguoi3=viewHolder.nguoi1;
+        nguoi3.setText(X.getAdults().toString());
+        TextView nguoi2 =viewHolder.nguoi2;
+        nguoi2.setText(X.getChilds().toString());
+        TextView lich=viewHolder.lich;
+        lich.setText(X.getStartDate()+" - "+X.getEndDate());
+        TextView name=viewHolder.name;
+        name.setText(X.getName());
+        ImageView anh=viewHolder.image;
+        anh.setImageURI((Uri) X.getAvatar());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mListTour.size();
+    }
+
+
+}
