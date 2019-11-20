@@ -6,40 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-   >
+    android:background="@drawable/gradient_background"
+    >
 
-    <TextView
+    <SearchView
+        android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="50sp"
-        android:background="#82B1FF"
-        android:gravity="center"
-        android:text="Travel Assistant"
-        android:textColor="#F7F8F2"
-        android:textSize="30sp" />
-    <LinearLayout
+        android:background="#FCFCFD" />
+    <TextView
+        android:paddingTop="8sp"
+        android:layout_marginTop="8sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/btSearch"
-            android:layout_width="42dp"
-            android:layout_height="match_parent"
-            android:background="#E2FFFFFF"
-            android:src="@drawable/iconsearch" />
-
-        <EditText
-            android:id="@+id/tvSearch"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="#DAFFFFFF"
-            android:hint="Search..."
-            android:singleLine="false"
-            android:textSize="14sp" />
-    </LinearLayout>
+        android:layout_height="40sp"
+        android:id="@+id/countTour"
+        android:paddingLeft="15sp"
+        android:background="#FCFCFD"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTours"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_background" />
+        />
 </LinearLayout>

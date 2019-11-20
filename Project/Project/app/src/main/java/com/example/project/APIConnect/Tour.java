@@ -1,9 +1,13 @@
 package com.example.project.APIConnect;
 
 import android.net.Uri;
+import android.renderscript.Long2;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import retrofit2.http.Url;
 
@@ -97,18 +101,11 @@ public class Tour {
 
     public String getStartDate() {
 
-        if(!this.startDate.isEmpty()) {
-            String yourString = this.startDate;
-            StringBuilder sb = new StringBuilder(yourString);
-            sb.insert(2, ':');
-            sb.insert(5, ':');
-            sb.insert(8, ' ');
-            sb.insert(11, '/');
-            sb.insert(14, '/');
 
-            this.startDate=sb.toString();
-        }
-        return startDate;
+            long t=Long.parseLong(startDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss - E, dd MM yyyy ");
+            Date date = new Date(t);
+        return sdf.format(date).toString();
     }
 
     public void setStartDate(String startDate) {
@@ -117,18 +114,10 @@ public class Tour {
 
     public String getEndDate() {
 
-        if(!this.startDate.isEmpty()) {
-            String yourString = this.startDate;
-            StringBuilder sb = new StringBuilder(yourString);
-            sb.insert(2, ':');
-            sb.insert(5, ':');
-            sb.insert(8, ' ');
-            sb.insert(11, '/');
-            sb.insert(14, '/');
-
-            this.startDate=sb.toString();
-        }
-        return endDate;
+        long t=Long.parseLong(endDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss - E, dd MM yyyy ");
+        Date date = new Date(t);
+        return sdf.format(date).toString();
     }
 
     public void setEndDate(String endDate) {

@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +31,8 @@ import java.util.Objects;
 
 import retrofit2.Callback;
 
-public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements Filterable {
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
@@ -49,8 +52,10 @@ public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
     }
     private List<Tour> mListTour;
+    private List<Tour> mListTourFull;
     public MyAdapter(List<Tour> contacts) {
-        mListTour = contacts;
+        this.mListTour = contacts;
+        mListTourFull=new ArrayList<>(contacts);
     };
 
 
@@ -85,6 +90,35 @@ public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public int getItemCount() {
         return mListTour.size();
     }
+    @Override
+    public Filter getFilter() {
+        return exFilter;
+    };
+    private Filter exFilter =new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Tour> filterList=new ArrayList<>();
 
-
+            if(constraint==null || constraint.length()==0)
+            {
+                filterList.addAll(mListTourFull);
+            }
+            else
+            {
+                String pattern =constraint.toString().toLowerCase().trim();
+                for(Tour item : mListTourFull)
+                {
+                    if(item.getName().toLowerCase().contains(pattern)){
+                        filterList.add(item);
+                    } } }
+            FilterResults result=new FilterResults();
+            result.values=filterList;
+            return result;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mListTour.clear();
+            mListTour.addAll((List)results.values);
+            notifyDataSetChanged();
+        }};
 }

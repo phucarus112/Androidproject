@@ -1,11 +1,16 @@
 package com.example.project;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +23,20 @@ import android.widget.Toast;
 import com.example.project.APIConnect.APIService;
 import com.example.project.APIConnect.LoginRequest;
 import com.example.project.APIConnect.RetrofitClient;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btnSignIn;
     CheckBox cbRemember;
     SharedPreferences sharedPreferences;
+    CallbackManager callbackManager;
+    LoginButton fbLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +59,57 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+        getFacebookComponent();
         getComponent();
+
+
+        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Retrofit retrofit = RetrofitClient.getClient();
+                APIService apiService = retrofit.create(APIService.class);
+
+                apiService.loginFacebook(loginResult.getAccessToken().toString())
+                        .enqueue(new Callback<LoginRequest>() {
+                            @Override
+                            public void onResponse(Call<LoginRequest> call, Response<LoginRequest> response) {
+
+                                if(response.isSuccessful())
+                                {
+                                    Toast.makeText(LoginActivity.this, "Login Facebook successfully", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                    startActivity(intent);
+                                }
+                                else
+                                {
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                        Toast.makeText(LoginActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<LoginRequest> call, Throwable t) {
+                                Toast.makeText(LoginActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(LoginActivity.this, "Login Facebook cancelled.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(LoginActivity.this, "Login Facebook error.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,8 +142,14 @@ public class LoginActivity extends AppCompatActivity {
                                     intent.putExtra("token",token);
                                     startActivity(intent);
                                 } else {
-                                    Toast.makeText(LoginActivity.this,
-                                            "Wrong email/phone or password", Toast.LENGTH_SHORT).show();
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                        Toast.makeText(LoginActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
                             }
@@ -102,6 +179,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void getFacebookComponent() {
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+
+        fbLoginButton = (LoginButton) findViewById(R.id.btnFacebook);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -110,6 +194,12 @@ public class LoginActivity extends AppCompatActivity {
         etEmailPhone.setText(sharedPreferences.getString("emailPhone", ""));
         etPassWord.setText(sharedPreferences.getString("password", ""));
         cbRemember.setChecked(sharedPreferences.getBoolean("checked",false));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode,resultCode,data);
     }
 
     private void getComponent() {

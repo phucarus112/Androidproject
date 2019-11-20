@@ -15,6 +15,11 @@ import com.example.project.APIConnect.APIService;
 import com.example.project.APIConnect.RegisterRequest;
 import com.example.project.APIConnect.RetrofitClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,10 +55,18 @@ public class RegisterActivity extends AppCompatActivity {
                                 {
                                     Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                                 else
                                 {
-                                    Toast.makeText(RegisterActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                        Toast.makeText(RegisterActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
 

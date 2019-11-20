@@ -18,6 +18,11 @@ public interface APIService {
     @FormUrlEncoded
     Call<RegisterRequest> signup(@Field("fullName") String fullName, @Field("email") String email,
                                  @Field("phone") String phone, @Field("password") String password);
+
+    @POST("/user/login/by-facebook")
+    @FormUrlEncoded
+    Call<LoginRequest> loginFacebook(@Field("accessToken") String accessToken);
+
     @GET("/tour/list")
     Call<ListToursResponse> getResponseListTour(@Header("Authorization") String token,@Query("rowPerPage") int n,@Query("pageNum" )int m
                                                 );
