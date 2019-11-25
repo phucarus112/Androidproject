@@ -1,35 +1,25 @@
 package com.example.project;
 
 import android.net.Uri;
-import android.widget.ArrayAdapter;
 
-import com.example.project.APIConnect.ListToursResponse;
 import com.example.project.APIConnect.Tour;
-
+import com.example.project.R;
 
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import retrofit2.Callback;
 
 public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements Filterable {
 

@@ -12,6 +12,7 @@
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
+        android:iconifiedByDefault="false"
         android:layout_height="50sp"
         android:background="#FCFCFD" />
     <TextView

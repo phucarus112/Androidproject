@@ -27,6 +27,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.Login;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -43,6 +44,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+
 public class LoginActivity extends AppCompatActivity {
 
     TextView tvForgetPass, tvSignUp;
@@ -57,27 +59,55 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         getFacebookComponent();
         getComponent();
 
+        sharedPreferences =  sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        String token = sharedPreferences.getString("isLogined","");
+        if(token.equals("yes")){
+            Retrofit retrofit = RetrofitClient.getClient();
+            APIService apiService = retrofit.create(APIService.class);
+            apiService.login(sharedPreferences.getString("emailPhone",""),
+                    sharedPreferences.getString("password",""))
+                    .enqueue(new Callback<LoginRequest>() {
+                        @Override
+                        public void onResponse(Call<LoginRequest> call, Response<LoginRequest> response) {
+                            Intent change = new Intent(LoginActivity.this,MainActivity.class);
+                            change.putExtra("token",response.body().getToken());
+                            startActivity(change);
+                        }
+
+                        @Override
+                        public void onFailure(Call<LoginRequest> call, Throwable t) {
+                            Toast.makeText(LoginActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        }
 
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
+            public void onSuccess(final LoginResult loginResult) {
                 Retrofit retrofit = RetrofitClient.getClient();
                 APIService apiService = retrofit.create(APIService.class);
 
-                apiService.loginFacebook(loginResult.getAccessToken().toString())
+                apiService.loginFacebook(loginResult.getAccessToken().getToken())
                         .enqueue(new Callback<LoginRequest>() {
                             @Override
-                            public void onResponse(Call<LoginRequest> call, Response<LoginRequest> response) {
-
+                            public void onResponse(Call<LoginRequest> call, Response<LoginRequest> response){
                                 if(response.isSuccessful())
                                 {
+                                    String token=response.body().getToken();
                                     Toast.makeText(LoginActivity.this, "Login Facebook successfully", Toast.LENGTH_SHORT).show();
+                                    sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("isLogined","yes");
+                                    editor.commit();
                                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                    intent.putExtra("token",token);
                                     startActivity(intent);
                                 }
                                 else
@@ -122,6 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<LoginRequest> call, Response<LoginRequest> response) {
                                 if (response.isSuccessful()) {
+
                                     //luu vao shared prefrence neu checkboc duoc tick
                                     String token=response.body().getToken();
 
@@ -134,6 +165,7 @@ public class LoginActivity extends AppCompatActivity {
                                             editor.putString("emailPhone", etEmailPhone.getText().toString().trim());
                                             editor.putString("password", etPassWord.getText().toString().trim());
                                             editor.putBoolean("checked", true);
+                                            editor.putString("isLogined","yes");
                                             editor.commit();
                                             Log.e("Da luu", "da luu");
                                         }
@@ -194,6 +226,13 @@ public class LoginActivity extends AppCompatActivity {
         etEmailPhone.setText(sharedPreferences.getString("emailPhone", ""));
         etPassWord.setText(sharedPreferences.getString("password", ""));
         cbRemember.setChecked(sharedPreferences.getBoolean("checked",false));
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
     }
 
     @Override
@@ -210,5 +249,7 @@ public class LoginActivity extends AppCompatActivity {
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         cbRemember = (CheckBox) findViewById(R.id.cbRemember);
     }
+
+
 
 }

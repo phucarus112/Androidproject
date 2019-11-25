@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,19 +17,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.project.APIConnect.APIService;
 import com.example.project.APIConnect.ListToursResponse;
-import com.example.project.APIConnect.LoginRequest;
 import com.example.project.APIConnect.RetrofitClient;
 import com.example.project.APIConnect.Tour;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     SearchView editsearch;
     TextView countTour;
     MyAdapter adapter;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,9 +99,40 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         switch(item.getItemId())
         {
             case R.id.optionLogout:
-                finish();
+                showDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    Dialog dialog;
+    Button btnYes, btnNo;
+    ImageButton imgBtnClose;
+
+    private void showDialog() {
+        dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.dialog);
+        dialog.setTitle("Do you want to sign out?");
+        btnYes = (Button) dialog.findViewById(R.id.btnYes);
+        btnNo = (Button) dialog.findViewById(R.id.btnNo);
+
+        dialog.show();
+
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("isLogined","no");
+                editor.commit();
+                finish();
+            }
+        });
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
     }
 }
