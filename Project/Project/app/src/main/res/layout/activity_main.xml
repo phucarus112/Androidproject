@@ -24,9 +24,30 @@
         android:paddingLeft="15sp"
         android:background="#FCFCFD"
         />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTours"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+    <Button
+        android:id="@+id/btn_create"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/circlebutton"
+        android:text="+"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+
+        >
+
+    </Button>
+    </RelativeLayout>
+
 </LinearLayout>

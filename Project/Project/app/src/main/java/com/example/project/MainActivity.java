@@ -39,10 +39,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     TextView countTour;
     MyAdapter adapter;
     SharedPreferences sharedPreferences;
+    Button btnCreate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        btnCreate =(Button) findViewById(R.id.btn_create);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -69,6 +71,16 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }
             @Override
             public void onFailure(Call<ListToursResponse> call, Throwable t) {
+            }
+
+        });
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CreateTourActivity.class);
+                intent.putExtra("token",Token);
+                startActivity(intent);
+
             }
         });
         editsearch = (SearchView) findViewById(R.id.searchView);

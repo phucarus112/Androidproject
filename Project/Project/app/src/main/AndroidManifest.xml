@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StopPointActivity"></activity>
+        <activity android:name=".CreateTourActivity"></activity>
+        <activity android:name=".StopPointActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

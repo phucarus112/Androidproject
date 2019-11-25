@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     CallbackManager callbackManager;
     LoginButton fbLoginButton;
-
+TextView newuser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,6 +209,13 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        newuser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, StopPointActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getFacebookComponent() {
@@ -248,6 +255,7 @@ public class LoginActivity extends AppCompatActivity {
         etPassWord = (EditText) findViewById(R.id.etPassWord);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         cbRemember = (CheckBox) findViewById(R.id.cbRemember);
+        newuser=(TextView) findViewById(R.id.tvNewUser);
     }
 
 
