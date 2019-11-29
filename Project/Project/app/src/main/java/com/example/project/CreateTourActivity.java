@@ -38,7 +38,7 @@ import retrofit2.Retrofit;
 public class CreateTourActivity extends AppCompatActivity {
 
     private static final String TAG="MainActivity";
-    private ImageView mDisplayDate1, mDisplayDate2;
+    private ImageView mDisplayDate1, mDisplayDate2,GgMapSrc,GgMapDes;
     private DatePickerDialog.OnDateSetListener mDateSetListenr,mDateSetListenr2;
     private EditText SetDate1,SetDate2, Name,Adult,Children,MinCost,MaxCost;
     private long milisecondStart, milisecondEnd;
@@ -56,64 +56,18 @@ public class CreateTourActivity extends AppCompatActivity {
 
         getComponent();
 
-        Intent i = getIntent();
-        final String Token = i.getStringExtra("token");
-
-        btnCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Retrofit retrofit = RetrofitClient.getClient();
-                APIService apiService = retrofit.create(APIService.class);
-
-
-                apiService.createTour(Token, Name.getText().toString().trim(),milisecondStart
-                        ,milisecondEnd, Integer.parseInt(Adult.getText().toString().trim()), Integer.parseInt(Children.getText().toString().trim())
-                        ,Float.parseFloat(MinCost.getText().toString()),Float.parseFloat(MaxCost.getText().toString()),Boolean.parseBoolean(isPrivate.getText().toString()),
-                        0.0F,0.0F,0.0F,0.0F)
-                        .enqueue(new Callback<CreateTourRequest>() {
-                            @Override
-                            public void onResponse(Call<CreateTourRequest> call, Response<CreateTourRequest> response) {
-                                if(response.isSuccessful())
-                                {
-                                    Intent intent = new Intent(CreateTourActivity.this, StopPointActivity.class);
-                                    startActivity(intent);
-                                }
-                                else
-                                {
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                                        Toast.makeText(CreateTourActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<CreateTourRequest> call, Throwable t) {
-                                Toast.makeText(CreateTourActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            }
-        });
-
-
-
-
 
         mDisplayDate1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar cal= Calendar.getInstance();
+                Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
-                milisecondStart=cal.getTimeInMillis();
-                DatePickerDialog dialog= new DatePickerDialog(
+                milisecondStart = cal.getTimeInMillis();
+                DatePickerDialog dialog = new DatePickerDialog(
                         CreateTourActivity.this,
-                        android.R.style.Theme_Holo_Dialog_MinWidth,mDateSetListenr,year,month,day);
+                        android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListenr, year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -121,14 +75,14 @@ public class CreateTourActivity extends AppCompatActivity {
         mDisplayDate2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar cal= Calendar.getInstance();
+                Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
-                milisecondEnd=cal.getTimeInMillis();
-                DatePickerDialog dialog= new DatePickerDialog(
+                milisecondEnd = cal.getTimeInMillis();
+                DatePickerDialog dialog = new DatePickerDialog(
                         CreateTourActivity.this,
-                        android.R.style.Theme_Holo_Dialog_MinWidth,mDateSetListenr2,year,month,day);
+                        android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListenr2, year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -151,7 +105,54 @@ public class CreateTourActivity extends AppCompatActivity {
                 SetDate2.setText(date);
             }
         };
+        GgMapSrc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(CreateTourActivity.this,StopPointActivity.class);
+                startActivity(intent);
+            }
+        });
+        GgMapDes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(CreateTourActivity.this,StopPointActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                String param = (isPrivate.isChecked()) ? "true" : "false";
+
+                Retrofit retrofit = RetrofitClient.getClient();
+                APIService apiService = retrofit.create(APIService.class);
+
+                apiService.createTour(getIntent().getStringExtra("token"), Name.getText().toString().trim()
+                        , milisecondStart, milisecondEnd
+                        , 0F,0F,0F,0F, Boolean.parseBoolean(param),
+                        Integer.parseInt(Adult.getText().toString()),Integer.parseInt(Children.getText().toString()),
+                        Integer.parseInt(MinCost.getText().toString()),Integer.parseInt(MaxCost.getText().toString()))
+                        .enqueue(new Callback<CreateTourRequest>() {
+                            @Override
+                            public void onResponse(Call<CreateTourRequest> call, Response<CreateTourRequest> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(CreateTourActivity.this, "succesffuflgfnd", Toast.LENGTH_SHORT).show();
+                                    //Intent intent = new Intent(CreateTourActivity.this, StopPointActivity.class);
+                                    //startActivity(intent);
+                                } else {
+                                    Toast.makeText(CreateTourActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<CreateTourRequest> call, Throwable t) {
+                                Toast.makeText(CreateTourActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
 
 
     }
@@ -181,5 +182,7 @@ public class CreateTourActivity extends AppCompatActivity {
         MaxCost= (EditText) findViewById(R.id.etMaxCost);
         btnCreate=(Button)findViewById(R.id.btnCreateTour);
         isPrivate= (RadioButton) findViewById(R.id.BtnIsPrivate);
+        GgMapSrc=(ImageView) findViewById(R.id.ImGgMapSrc);
+        GgMapDes=(ImageView) findViewById(R.id.ImGgMapDes);
     }
 }

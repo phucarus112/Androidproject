@@ -15,6 +15,21 @@ public class CreateTourRequest {
     @SerializedName("endDate")
     private long endDate;
 
+    @SerializedName("sourceLat")
+    private float sourceLat;
+
+    @SerializedName("sourceLong")
+    private float sourceLong;
+
+    @SerializedName("desLat")
+    private float desLat;
+
+    @SerializedName("desLong")
+    private float desLong;
+
+    @SerializedName("isPrivate")
+    private boolean isPrivate;
+
     @SerializedName("adults")
     private int adults;
 
@@ -27,16 +42,49 @@ public class CreateTourRequest {
     @SerializedName("maxCost")
     private float maxCost;
 
-    @SerializedName("sourceLat")
-    private float sourceLat;
+    @SerializedName("hostId")
+    private String hostId;
 
-    @SerializedName("sourceLong")
-    private float sourceLong;
+    @SerializedName("status")
+    private int status;
 
-    @SerializedName("desLat")
-    private float desLat;
-    @SerializedName("desLong")
-    private float desLong;
+    @SerializedName("id")
+    private int id;
+
+    @SerializedName("avatar")
+    private String avatar;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(long startDate) {
+        this.startDate = startDate;
+    }
+
+    public long getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(long endDate) {
+        this.endDate = endDate;
+    }
 
     public float getSourceLat() {
         return sourceLat;
@@ -70,46 +118,75 @@ public class CreateTourRequest {
         this.desLong = desLong;
     }
 
-
-    @SerializedName("isPrivate")
-    private boolean isPrivate;
-
-
-    public String getname() {
-        return name;
-    }
-    public void setname(int userId) {
-        this.name = name;
-    }
-
-    public long getStartDate() {return  startDate;}
-    public void setStartDate(){this.startDate=startDate;}
-
-    public long getEndDate() {return  endDate;}
-    public void setEndDate(){this.endDate= endDate;}
-
-    public float getMinCost() {return  minCost;}
-    public void setMinCost(){this.minCost= minCost;}
-
-    public float getMaxCost() {return  maxCost;}
-    public void setMaxCost(){this.maxCost= maxCost;}
-
-    public int getAdults() {return  adults;}
-    public void setAdults(){this.adults= adults;}
-
-    public int getChilds() {return  childs;}
-    public void setChilds(){this.childs= childs;}
-
     public boolean isPrivate() {
         return isPrivate;
     }
-    public void setisPrivate(boolean isPrivate) { this.isPrivate = isPrivate; }
 
-    public String getToken() {
-        return token;
+    public void setPrivate(boolean aPrivate) {
+        isPrivate = aPrivate;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public int getAdults() {
+        return adults;
+    }
+
+    public void setAdults(int adults) {
+        this.adults = adults;
+    }
+
+    public int getChilds() {
+        return childs;
+    }
+
+    public void setChilds(int childs) {
+        this.childs = childs;
+    }
+
+    public float getMinCost() {
+        return minCost;
+    }
+
+    public void setMinCost(float minCost) {
+        this.minCost = minCost;
+    }
+
+    public float getMaxCost() {
+        return maxCost;
+    }
+
+    public void setMaxCost(float maxCost) {
+        this.maxCost = maxCost;
+    }
+
+    public String getHostId() {
+        return hostId;
+    }
+
+    public void setHostId(String hostId) {
+        this.hostId = hostId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

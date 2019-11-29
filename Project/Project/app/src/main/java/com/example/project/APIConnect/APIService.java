@@ -29,8 +29,10 @@ public interface APIService {
     @POST("/tour/create")
     @FormUrlEncoded
     Call<CreateTourRequest> createTour(@Header("Authorization") String token,@Field("name") String name, @Field("startDate") long startDate,
-                                       @Field("endDate") long endDate, @Field("adults") int adults,
-                                       @Field("childs") int childs, @Field("minCost") float minCost,
-                                       @Field("maxCost") float maxCost, @Field("isPrivate") boolean isPrivate,@Field("sourceLat") float sourceLat,
-                                       @Field("sourceLong") float sourceLong,@Field("desLat") float desLat,@Field("desLong") float desLong);
+                                       @Field("endDate") long endDate,@Field("sourceLat") float sourceLat,
+                                       @Field("sourceLong") float sourceLong,@Field("desLat") float desLat,@Field("desLong") float desLong,
+                                       @Field("isPrivate") boolean isPrivate ,@Field("adults") int adults,
+                                       @Field("childs") int childs, @Field("minCost") int minCost,
+                                       @Field("maxCost") int maxCost
+    );
 }

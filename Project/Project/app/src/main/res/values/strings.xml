@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Project</string>
     <string name="facebook_app_id">1952416424861293</string>
+    <string name="map_key" translatable="false">
+      AIzaSyB_qsP8AOP_P0MdlPz-48TDaJYjTP3vbjo
+   </string>
 </resources>
