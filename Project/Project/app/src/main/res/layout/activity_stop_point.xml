@@ -25,6 +25,7 @@
 
         </SearchView>
         <Button
+            android:id="@+id/btnCancle"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
