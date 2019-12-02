@@ -1,13 +1,16 @@
 package com.example.project;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,12 +41,13 @@ import retrofit2.Retrofit;
 public class CreateTourActivity extends AppCompatActivity {
 
     private static final String TAG="MainActivity";
-    private ImageView mDisplayDate1, mDisplayDate2,GgMapSrc,GgMapDes;
+    private ImageView mDisplayDate1, mDisplayDate2,GgMapSrc,GgMapDes, imgChooseImg;
     private DatePickerDialog.OnDateSetListener mDateSetListenr,mDateSetListenr2;
     private EditText SetDate1,SetDate2, Name,Adult,Children,MinCost,MaxCost;
     private long milisecondStart, milisecondEnd;
     private Button btnCreate;
     private RadioButton isPrivate;
+    public static final int PICK_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +123,17 @@ public class CreateTourActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        imgChooseImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+            }
+        });
+
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,9 +168,21 @@ public class CreateTourActivity extends AppCompatActivity {
                         });
             }
         });
-
-
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE) {
+            if (data == null) return;
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
@@ -184,5 +211,6 @@ public class CreateTourActivity extends AppCompatActivity {
         isPrivate= (RadioButton) findViewById(R.id.BtnIsPrivate);
         GgMapSrc=(ImageView) findViewById(R.id.ImGgMapSrc);
         GgMapDes=(ImageView) findViewById(R.id.ImGgMapDes);
+        imgChooseImg = (ImageView) findViewById(R.id.imgChooseImg);
     }
 }
