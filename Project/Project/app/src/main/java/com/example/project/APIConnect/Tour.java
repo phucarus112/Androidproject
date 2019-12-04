@@ -101,11 +101,13 @@ public class Tour {
 
     public String getStartDate() {
 
-
-            long t=Long.parseLong(startDate);
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss - E, dd MM yyyy ");
-            Date date = new Date(t);
-        return sdf.format(date).toString();
+            try{
+                long t=Long.parseLong(startDate);
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss - E, dd MM yyyy ");
+                Date date = new Date(t);
+                return sdf.format(date).toString();}
+            catch (Exception e){}
+            return "No start date";
     }
 
     public void setStartDate(String startDate) {
@@ -113,11 +115,14 @@ public class Tour {
     }
 
     public String getEndDate() {
+        try{
+            long t=Long.parseLong(endDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss - E, dd MM yyyy ");
+            Date date = new Date(t);
+            return sdf.format(date).toString();}
+        catch (Exception e){}
+        return "No end date";
 
-        long t=Long.parseLong(endDate);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss - E, dd MM yyyy ");
-        Date date = new Date(t);
-        return sdf.format(date).toString();
     }
 
     public void setEndDate(String endDate) {

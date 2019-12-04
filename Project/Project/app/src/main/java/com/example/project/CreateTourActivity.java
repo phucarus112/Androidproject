@@ -5,10 +5,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -30,6 +33,7 @@ import com.example.project.APIConnect.RetrofitClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -152,6 +156,7 @@ public class CreateTourActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<CreateTourRequest> call, Response<CreateTourRequest> response) {
                                 if (response.isSuccessful()) {
+                                    Log.e("idtour",String.valueOf(response.body().getId()));
                                     Toast.makeText(CreateTourActivity.this, "succesffuflgfnd", Toast.LENGTH_SHORT).show();
                                     //Intent intent = new Intent(CreateTourActivity.this, StopPointActivity.class);
                                     //startActivity(intent);
@@ -175,11 +180,10 @@ public class CreateTourActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE) {
             if (data == null) return;
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Uri selectedImage = data.getData();
+            File myFile = new File(selectedImage.toString());
+            String path = myFile.getName();
+            Log.e("name",path);
         }
     }
 

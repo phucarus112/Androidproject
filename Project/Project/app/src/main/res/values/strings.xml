@@ -4,4 +4,8 @@
     <string name="map_key" translatable="false">
       AIzaSyB_qsP8AOP_P0MdlPz-48TDaJYjTP3vbjo
    </string>
+    <string name="title_ListTour">List Tour</string>
+    <string name="title_Notifications">Notifications</string>
+    <string name="title_User">User</string>
+    <string name="title_Setting">Setting</string>
 </resources>

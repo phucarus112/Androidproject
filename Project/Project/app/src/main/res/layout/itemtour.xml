@@ -7,8 +7,7 @@
     android:layout_marginRight="10sp"
     android:background="@drawable/backgroud_item"
     android:orientation="vertical"
-    android:paddingBottom="10sp"
-    >
+    android:paddingBottom="10sp">
 
     <ImageView
         android:id="@+id/imageChinh"

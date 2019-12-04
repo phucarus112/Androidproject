@@ -3,13 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StopPointActivity">
-
+    tools:context=".StopPointActivity"
+    android:id="@+id/stop_point">
+    <Button
+        android:id="@+id/btn_stopPointList"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="80sp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/list"
+        android:textColor="#FFFFFF" />
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+    </fragment>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -35,6 +47,7 @@
             >
 
         </Button>
+
     </LinearLayout>
 
 </RelativeLayout>

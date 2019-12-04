@@ -6,7 +6,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,7 +17,15 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -36,6 +46,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,11 +58,18 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
     private LocationManager locationManager;
     private LocationListener locationListener;
     private LatLng userLocation;
+    Dialog stopPointList;
+    ImageButton imgBtnClose;
+    ListView listView1;
+    ArrayList<StopPointObject> stopPointObjectArrayList = new ArrayList<StopPointObject>();
+    MyAdapter_StopPointList myAdapter_stopPointList;
+    Button btnStopPointList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stop_point);
+        btnStopPointList  = (Button)findViewById(R.id.btn_stopPointList);
         searchView = (SearchView) findViewById(R.id.location);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
@@ -93,7 +111,6 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
@@ -127,6 +144,33 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
         };
 
         addLocationPermission();
+
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                        //click vào map ở 1 điểm bky
+            }
+        });
+
+        btnStopPointList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopPointList = new Dialog(StopPointActivity.this);
+                stopPointList.setContentView(R.layout.stop_point_list);
+                imgBtnClose = (ImageButton)stopPointList.findViewById(R.id.imgBtnClose);
+                listView1 = (ListView) stopPointList.findViewById(R.id.lvStopPointList);
+                myAdapter_stopPointList = new MyAdapter_StopPointList(StopPointActivity.this,stopPointObjectArrayList);
+                listView1.setAdapter(myAdapter_stopPointList);
+                stopPointList.show();
+
+                imgBtnClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        stopPointList.dismiss();
+                    }
+                });
+            }
+        });
     }
 
     private void addLocationPermission() {

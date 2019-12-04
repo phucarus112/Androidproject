@@ -20,11 +20,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.project.APIConnect.APIService;
 import com.example.project.APIConnect.ListToursResponse;
 import com.example.project.APIConnect.RetrofitClient;
 import com.example.project.APIConnect.Tour;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     MyAdapter adapter;
     SharedPreferences sharedPreferences;
     Button btnCreate;
+    ActionBar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,36 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
+
+
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.navigation);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_ListTour);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch(menuItem.getItemId())
+                {
+                    case R.id.navigation_ListTour:
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
+                        break;
+                    case R.id.navigation_Notifications:
+                        Toast.makeText(MainActivity.this, "notifications", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.navigation_User:
+                        Toast.makeText(MainActivity.this, "user", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.navigation_Setting:
+                        Toast.makeText(MainActivity.this, "setting", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return false;
+            }
+        });
+
         LayoutInflater inflator = (LayoutInflater) this .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.action_bar, null);
         actionBar.setCustomView(v);
@@ -136,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("isLogined","no");
                 editor.commit();
+
                 finish();
             }
         });

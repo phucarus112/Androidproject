@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:background="@drawable/gradient_background"
-    >
+    android:background="@drawable/gradient_background">
 
-    <SearchView
-        android:id="@+id/searchView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:iconifiedByDefault="false"
-        android:layout_height="50sp"
-        android:background="#FCFCFD" />
+        android:layout_height="match_parent">
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:iconifiedByDefault="false"
+            android:layout_height="50sp"
+            android:background="#FCFCFD" />
     <TextView
         android:paddingTop="8sp"
         android:layout_marginTop="8sp"
@@ -23,31 +26,36 @@
         android:id="@+id/countTour"
         android:paddingLeft="15sp"
         android:background="#FCFCFD"
-        />
+        android:layout_below="@+id/searchView"/>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTours"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
-    <Button
-        android:id="@+id/btn_create"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/circlebutton"
-        android:text="+"
-        android:textColor="#FFFFFF"
-        android:textSize="20dp"
+        android:layout_below="@id/countTour">
 
-        >
-
-    </Button>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTours"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/btn_create"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="80sp"
+           android:layout_alignParentBottom="true"
+            android:background="@drawable/circlebutton"
+            android:text="+"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
     </RelativeLayout>
-
-</LinearLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#fff"
+            android:foreground="?attr/selectableItemBackground"
+            app:menu="@menu/navigation"/>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

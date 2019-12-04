@@ -155,6 +155,7 @@ TextView newuser;
 
                                     //luu vao shared prefrence neu checkboc duoc tick
                                     String token=response.body().getToken();
+                                    Log.e("test",token);
 
                                     if (cbRemember.isChecked()) {
                                         sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
