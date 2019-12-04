@@ -58,6 +58,7 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
     private LocationManager locationManager;
     private LocationListener locationListener;
     private LatLng userLocation;
+    private Button cancel;
     Dialog stopPointList;
     ImageButton imgBtnClose;
     ListView listView1;
@@ -72,8 +73,8 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
         btnStopPointList  = (Button)findViewById(R.id.btn_stopPointList);
         searchView = (SearchView) findViewById(R.id.location);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-
-        /*searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        cancel=(Button) findViewById(R.id.btnCancel);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 String location = searchView.getQuery().toString();
@@ -87,16 +88,16 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
                     }
                     Address address = addressList.get(0);
 
-                    LatLng latLng = new LatLng(+41.5020952, -81.6789717);
-
+                    LatLng latLng = new LatLng(address.getLatitude(),address.getLongitude());
+                    map.clear();
 //                   Toast.makeText(StopPointActivity.this, (int) a,Toast. LENGTH_SHORT).show();
                     //    if(map!=null) {
-                    map.addMarker(new MarkerOptions().position(new LatLng(address.getLatitude(), address.getLongitude())).title(location).snippet("San Jose, CR")
+                    map.addMarker(new MarkerOptions().position(new LatLng(address.getLatitude(), address.getLongitude())).title(location)
 
                             .icon(BitmapDescriptorFactory.defaultMarker(
 
                                     BitmapDescriptorFactory.HUE_GREEN)));
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
                 }
 
                 // }
@@ -107,8 +108,15 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
-        });*/
+        });
         mapFragment.getMapAsync(this);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(StopPointActivity.this,CreateTourActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
