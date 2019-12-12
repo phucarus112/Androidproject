@@ -12,7 +12,7 @@
 
     <permission
         android:name="com.example.project.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature"></permission>
+        android:protectionLevel="signature" />
 
     <application
         android:name=".Network.ConnectFacebook"
@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".AddStopPoint"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
         <activity android:name=".CreateTourActivity" />
         <activity android:name=".StopPointActivity" />
 
@@ -35,7 +36,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Activity_Forget" />
         <activity android:name=".LoginActivity">
@@ -46,7 +48,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-
     </application>
 
 </manifest>

@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     SharedPreferences sharedPreferences;
     Button btnCreate;
     ActionBar toolbar;
+    SharedPreferences sharedPreferences2;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +53,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-
+        sharedPreferences2= getSharedPreferences("data",MODE_PRIVATE);
+        editor=  sharedPreferences2.edit();
+        editor.clear();
+        editor.commit();
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.navigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_ListTour);

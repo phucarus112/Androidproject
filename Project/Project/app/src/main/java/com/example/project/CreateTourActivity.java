@@ -5,8 +5,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -24,6 +26,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project.APIConnect.APIService;
@@ -47,22 +50,36 @@ public class CreateTourActivity extends AppCompatActivity {
     private static final String TAG="MainActivity";
     private ImageView mDisplayDate1, mDisplayDate2,GgMapSrc,GgMapDes, imgChooseImg;
     private DatePickerDialog.OnDateSetListener mDateSetListenr,mDateSetListenr2;
-    private EditText SetDate1,SetDate2, Name,Adult,Children,MinCost,MaxCost;
+    private EditText  Name,Adult,Children,MinCost,MaxCost;
+    private TextView SetDate1,SetDate2;
     private long milisecondStart, milisecondEnd;
     private Button btnCreate;
     private RadioButton isPrivate;
     public static final int PICK_IMAGE = 1;
+    private TextView numsrclat, numsrclong, numdeslat, numdeslong,Source,Des;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    public static  final String SRC= "SRC";
 
+    private int num;
+    private  String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_tour);
+
+        token= getIntent().getStringExtra("token");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Create Tour");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getComponent();
+
+        sharedPreferences= getSharedPreferences("data",MODE_PRIVATE);
+        editor=  sharedPreferences.edit();
+        GetSharePre();
+        GetDateMap();
 
 
         mDisplayDate1.setOnClickListener(new View.OnClickListener() {
@@ -116,14 +133,25 @@ public class CreateTourActivity extends AppCompatActivity {
         GgMapSrc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent= new Intent(CreateTourActivity.this,StopPointActivity.class);
+
+                num=1;
+                intent.putExtra(SRC,num);
+                intent.putExtra("token",token);
+                PushIntoSharePre();
                 startActivity(intent);
             }
         });
         GgMapDes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(CreateTourActivity.this,StopPointActivity.class);
+                Intent intent = new Intent(CreateTourActivity.this, StopPointActivity.class);
+
+                num = 2;
+                intent.putExtra(SRC, num);
+                intent.putExtra("token", token);
+                PushIntoSharePre();
                 startActivity(intent);
             }
         });
@@ -146,35 +174,94 @@ public class CreateTourActivity extends AppCompatActivity {
 
                 Retrofit retrofit = RetrofitClient.getClient();
                 APIService apiService = retrofit.create(APIService.class);
+                if (Name.getText().toString().trim().isEmpty() == false && SetDate1.getText().toString().trim().isEmpty() == false &&
+                SetDate2.getText().toString().trim().isEmpty() == false && Source.getText().toString().trim().isEmpty() == false &&
+                Des.getText().toString().trim().isEmpty() == false && Adult.getText().toString().trim().isEmpty() == false &&
+                Children.getText().toString().trim().isEmpty() == false && MinCost.getText().toString().trim().isEmpty() == false &&
+                MaxCost.getText().toString().trim().isEmpty() == false ) {
+                    apiService.createTour(token, Name.getText().toString().trim()
+                            , milisecondStart, milisecondEnd
+                            , Float.parseFloat(sharedPreferences.getString("numsrclat", "")),
+                            Float.parseFloat(sharedPreferences.getString("numsrclong", "")),
+                           0.0F, 0.0F, Boolean.parseBoolean(param),
+                            Integer.parseInt(Adult.getText().toString()), Integer.parseInt(Children.getText().toString()),
+                            Integer.parseInt(MinCost.getText().toString()), Integer.parseInt(MaxCost.getText().toString()))
+                            .enqueue(new Callback<CreateTourRequest>() {
+                                @Override
 
-                apiService.createTour(getIntent().getStringExtra("token"), Name.getText().toString().trim()
-                        , milisecondStart, milisecondEnd
-                        , 0F,0F,0F,0F, Boolean.parseBoolean(param),
-                        Integer.parseInt(Adult.getText().toString()),Integer.parseInt(Children.getText().toString()),
-                        Integer.parseInt(MinCost.getText().toString()),Integer.parseInt(MaxCost.getText().toString()))
-                        .enqueue(new Callback<CreateTourRequest>() {
-                            @Override
-                            public void onResponse(Call<CreateTourRequest> call, Response<CreateTourRequest> response) {
-                                if (response.isSuccessful()) {
-                                    Log.e("idtour",String.valueOf(response.body().getId()));
-                                    Toast.makeText(CreateTourActivity.this, "succesffuflgfnd", Toast.LENGTH_SHORT).show();
-                                    //Intent intent = new Intent(CreateTourActivity.this, StopPointActivity.class);
-                                    //startActivity(intent);
-                                } else {
-                                    Toast.makeText(CreateTourActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                                public void onResponse(Call<CreateTourRequest> call, Response<CreateTourRequest> response) {
+                                    if (response.isSuccessful()) {
+                                        Log.e("idtour", String.valueOf(response.body().getId()));
 
+                                        Toast.makeText(CreateTourActivity.this, "Succesffull", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(CreateTourActivity.this, StopPointActivity.class);
+
+                                        num = 3;
+                                        intent.putExtra(SRC, num);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(CreateTourActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(Call<CreateTourRequest> call, Throwable t) {
-                                Toast.makeText(CreateTourActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                @Override
+                                public void onFailure(Call<CreateTourRequest> call, Throwable t) {
+                                    Toast.makeText(CreateTourActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+                else  Toast.makeText(CreateTourActivity.this, "Please fill in required fields", Toast.LENGTH_SHORT).show();
             }
         });
     }
+    private void PushIntoSharePre(){
+        editor.putString("nametour",Name.getText().toString().trim());
+        editor.putLong("milisecondStart",milisecondStart);
+        editor.putString("startday",SetDate1.getText().toString());
+        editor.putLong("milisecondEnd",milisecondEnd);
+        editor.putString("endday",SetDate2.getText().toString());
+        editor.putString("adult",Adult.getText().toString());
+        editor.putString("children",Children.getText().toString());
+        editor.putString("mincost", MinCost.getText().toString());
+        editor.putString("maxcost", MaxCost.getText().toString());
+        editor.commit();
+    }
+    private void GetDateMap(){
+        if(getIntent().getIntExtra(StopPointActivity.TEMP,0)==5) {
+            if (getIntent().getIntExtra(StopPointActivity.SRC, 0) == 1) {
 
+                Source.setText(getIntent().getStringExtra(StopPointActivity.ADDRESS));
+                editor.putString("source", getIntent().getStringExtra(StopPointActivity.ADDRESS));
+                editor.putString("numsrclat", getIntent().getStringExtra(StopPointActivity.SRCLAT));
+                editor.putString("numsrclong", getIntent().getStringExtra(StopPointActivity.SRCLONG));
+
+
+            }
+            if (getIntent().getIntExtra(StopPointActivity.SRC, 0) == 2) {
+
+                Des.setText(getIntent().getStringExtra(StopPointActivity.ADDRESS));
+                editor.putString("des", getIntent().getStringExtra(StopPointActivity.ADDRESS));
+                editor.putString("numdeslat", getIntent().getStringExtra(StopPointActivity.SRCLAT));
+                editor.putString("numdeslong", getIntent().getStringExtra(StopPointActivity.SRCLONG));
+
+            }
+        }else if(getIntent().getIntExtra(StopPointActivity.TEMP,0)==5) {
+            Source.setText(sharedPreferences.getString("source",""));
+            Des.setText(sharedPreferences.getString("des",""));
+               }
+    }
+    private  void GetSharePre(){
+        Name.setText(sharedPreferences.getString("nametour",""));
+        SetDate1.setText(sharedPreferences.getString("startday",""));
+        SetDate2.setText(sharedPreferences.getString("endday",""));
+        Source.setText(sharedPreferences.getString("source",""));
+        Des.setText(sharedPreferences.getString("des",""));
+        Adult.setText(sharedPreferences.getString("adult",""));
+        Children.setText(sharedPreferences.getString("children",""));
+        MinCost.setText(sharedPreferences.getString("mincost",""));
+       MaxCost.setText(sharedPreferences.getString("maxcost",""));
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -203,9 +290,9 @@ public class CreateTourActivity extends AppCompatActivity {
     private void getComponent()
     {
         mDisplayDate1 = (ImageView) findViewById(R.id.IMcalendar);
-        SetDate1= (EditText) findViewById(R.id.etStartDay);
+        SetDate1= (TextView) findViewById(R.id.etStartDay);
         mDisplayDate2 = (ImageView) findViewById(R.id.IMcalendar2);
-        SetDate2= (EditText) findViewById(R.id.etEndDay);
+        SetDate2= (TextView) findViewById(R.id.etEndDay);
         Name =(EditText) findViewById(R.id.etFullName);
         Adult= (EditText) findViewById(R.id.etAdult);
         Children= (EditText) findViewById(R.id.etChildren);
@@ -216,5 +303,8 @@ public class CreateTourActivity extends AppCompatActivity {
         GgMapSrc=(ImageView) findViewById(R.id.ImGgMapSrc);
         GgMapDes=(ImageView) findViewById(R.id.ImGgMapDes);
         imgChooseImg = (ImageView) findViewById(R.id.imgChooseImg);
+        Source=(TextView)findViewById(R.id.tvSrc);
+        Des=(TextView)findViewById(R.id.tvDes);
+
     }
 }

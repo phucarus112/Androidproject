@@ -6,10 +6,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -50,6 +53,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.example.project.CreateTourActivity.*;
+
 public class StopPointActivity extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap map;
     SearchView searchView;
@@ -65,7 +70,15 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
     ArrayList<StopPointObject> stopPointObjectArrayList = new ArrayList<StopPointObject>();
     MyAdapter_StopPointList myAdapter_stopPointList;
     Button btnStopPointList;
-
+    private Address address;
+    public static  final String SRCLAT= "SRCLAT";
+    public static final String SRCLONG="SRCLONG";
+    public static final String ADDRESS="ADDRESS";
+    public static  final String SRC= "SRC";
+    public static  final String TEMP= "TEMP";
+    private String token;
+    private int num,temp=5;
+    Dialog PopUpStopPoint;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +87,11 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
         searchView = (SearchView) findViewById(R.id.location);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         cancel=(Button) findViewById(R.id.btnCancel);
+        PopUpStopPoint = new Dialog(StopPointActivity.this);
+        num= getIntent().getIntExtra(CreateTourActivity.SRC,0);
+
+        token= getIntent().getStringExtra("token");
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -86,13 +104,13 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Address address = addressList.get(0);
+                     address = addressList.get(0);
 
                     LatLng latLng = new LatLng(address.getLatitude(),address.getLongitude());
                     map.clear();
 //                   Toast.makeText(StopPointActivity.this, (int) a,Toast. LENGTH_SHORT).show();
                     //    if(map!=null) {
-                    map.addMarker(new MarkerOptions().position(new LatLng(address.getLatitude(), address.getLongitude())).title(location)
+                    map.addMarker(new MarkerOptions().position(new LatLng(address.getLatitude(), address.getLongitude())).title(location).snippet(address.getAddressLine(0))
 
                             .icon(BitmapDescriptorFactory.defaultMarker(
 
@@ -110,53 +128,68 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
         mapFragment.getMapAsync(this);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent= new Intent(StopPointActivity.this,CreateTourActivity.class);
-                startActivity(intent);
-            }
-        });
+      cancel.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              if(num==1 || num==2) {
+                  Intent intent = new Intent(StopPointActivity.this, CreateTourActivity.class);
+                  temp=4;
+                  intent.putExtra(TEMP,temp);
+                  intent.putExtra("token", token);
+                  intent.putExtra(SRC, num);
+                  startActivity(intent);
+              }
+              else if(num==3){
+                  Toast.makeText(StopPointActivity.this, "Can't back last activity", Toast.LENGTH_SHORT).show();
+              }
+          }
+       });
     }
+    public void byExtras(String srclat,String srclong,String address){
+        Intent intent= new Intent(StopPointActivity.this,CreateTourActivity.class);
+        intent.putExtra("token",token);
+        intent.putExtra(SRC,num);
+        intent.putExtra(TEMP,temp);
+        intent.putExtra(SRCLAT,srclat);
+        intent.putExtra(SRCLONG,srclong);
+        intent.putExtra(ADDRESS,address);
+        startActivity(intent);
+    }
+    public void byExtras2(String srclat,String srclong,String address){
+        Intent intent= new Intent(StopPointActivity.this,AddStopPoint.class);
+        intent.putExtra("token",token);
+        intent.putExtra(SRC,num);
+        intent.putExtra(SRCLAT,srclat);
+        intent.putExtra(SRCLONG,srclong);
+        intent.putExtra(ADDRESS,address);
+        startActivity(intent);
+    }
+    public void ShowUp(){
+        Button close;
+        PopUpStopPoint.setContentView(R.layout.activity_add_stop_point);
 
+        PopUpStopPoint.show();
+
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        locationListener = new LocationListener() {
+        map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
-            public void onLocationChanged(Location location) {
-                userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                map.clear();
-                map.addMarker(new MarkerOptions().position(userLocation).title("I'm here"));
-                map.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
-                map.animateCamera(CameraUpdateFactory.zoomTo(19.0F));
-            }
+            public void onMapLongClick(LatLng latLng) {
+                String latitude = String.valueOf(address.getLatitude());
+                String longitude = String.valueOf(address.getLongitude());
+                String addr= address.getAddressLine(0);
+                if(num!=3) {
 
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-
-        addLocationPermission();
-
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                        //click vào map ở 1 điểm bky
+                    byExtras(latitude, longitude,addr);
+                }
+                else
+                if (num == 3) {
+                    // ShowUp();
+                    byExtras2(latitude, longitude,addr);
+                }
             }
         });
 

@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     CallbackManager callbackManager;
     LoginButton fbLoginButton;
+
 TextView newuser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -8,4 +8,9 @@
     <string name="title_Notifications">Notifications</string>
     <string name="title_User">User</string>
     <string name="title_Setting">Setting</string>
+    <string-array name="service_type">
+        <item>Restaurant</item>
+        <item>Hotel</item>
+        <item>Super Market</item>
+    </string-array>
 </resources>
