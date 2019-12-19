@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:layout_gravity="center">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="5dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Stop Point Infomation"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#F00000"/>
+                <ImageButton
+                    android:id="@+id/inforStopPointCloseEdit"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/circlebutton"
+                    android:src="@drawable/com_facebook_close"
+                    android:layout_marginLeft="25dp"
+                    android:layout_toRightOf="@+id/tv"/>
+                <!--        <Button-->
+                <!--            android:id="@+id/btnclose"-->
+                <!--            android:layout_width="35dp"-->
+                <!--            android:layout_height="35dp"-->
+                <!--            android:text="X"-->
+                <!--            android:background="@drawable/circleclose"-->
+                <!--            android:textColor="#fff"-->
+                <!--            android:textSize="20sp"-->
+                <!--            android:layout_alignParentRight="true"-->
+                <!--            android:layout_marginRight="5dp">-->
+                <!--        </Button>-->
+            </RelativeLayout>
+            <TextView
+                android:layout_weight="5"
+                android:id="@+id/tvStopPointName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginBottom="10sp"
+                android:fontFamily="monospace"
+                android:text="Stop Point Name"
+                android:textColor="#959697"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/etStopPointEdit"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="-5sp"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/et_box"
+                android:inputType="textCapWords"
+                android:paddingLeft="20sp"
+                android:singleLine="true"
+                android:textColor="#161616"/>
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginBottom="10sp"
+                android:fontFamily="monospace"
+                android:text="Address"
+                android:textColor="#959697"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"/>
+
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/etAddressEdit"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="-5sp"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/et_box"
+                android:inputType="textCapWords"
+                android:paddingLeft="20sp"
+                android:singleLine="true"
+                android:textColor="#161616"/>
+            <TextView
+                android:id="@+id/tvServiceType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginBottom="10sp"
+                android:fontFamily="monospace"
+                android:text="Service Type"
+                android:textColor="#959697"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"/>
+            <Spinner
+                android:layout_weight="1"
+                android:id="@+id/spinnerServiceTypeEdit"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/et_box"
+                android:textColor="#161616"
+                android:layout_marginRight="10dp">
+
+            </Spinner>
+            <TextView
+                android:id="@+id/tvCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginBottom="10sp"
+                android:fontFamily="monospace"
+                android:text="Province"
+                android:textColor="#959697"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                />
+            <Spinner
+                android:layout_weight="1"
+                android:id="@+id/spinnerCityEdit"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/et_box"
+                android:textColor="#161616"
+                android:layout_marginRight="10dp"
+                >
+
+            </Spinner>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp">
+
+                <TextView
+                    android:id="@+id/tvMinCost"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+
+                    android:layout_marginBottom="10sp"
+                    android:fontFamily="monospace"
+                    android:text="Min Cost"
+                    android:textColor="#959697"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvMaxCost"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginBottom="10sp"
+                    android:fontFamily="monospace"
+                    android:text="Max Cost"
+                    android:textColor="#959697"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginRight="10dp">
+
+                <EditText
+                    android:id="@+id/etMinCostEdit"
+                    android:layout_weight="1"
+                    android:layout_width="1dp"
+                    android:layout_height="50sp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/et_box"
+                    android:paddingLeft="20sp"
+                    android:singleLine="true"
+                    android:textColor="#161616"
+                    android:inputType="number"/>
+
+                <EditText
+                    android:id="@+id/etMaxCostEdit"
+                    android:layout_weight="1"
+                    android:layout_width="1dp"
+                    android:layout_height="50sp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/et_box"
+                    android:paddingLeft="20sp"
+                    android:singleLine="true"
+                    android:textColor="#161616"
+                    android:inputType="number"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvArrive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginBottom="10sp"
+                android:fontFamily="monospace"
+                android:text="ArriveAt"
+                android:textColor="#959697"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp">
+                <TextView
+                    android:id="@+id/tvTimeArriveEdit"
+                    android:layout_weight="1"
+                    android:layout_width="1dp"
+                    android:layout_height="50sp"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="10sp"
+                    android:background="@drawable/et_boxhcn"
+                    android:inputType="textCapWords"
+                    android:textColor="#161616"
+                    android:singleLine="true"
+                    android:hint="Time"
+                    android:textColorHint="#161616"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tvDateArriveEdit"
+                    android:layout_width="1dp"
+                    android:layout_height="50sp"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="2"
+                    android:background="@drawable/et_boxhcn"
+                    android:gravity="center"
+                    android:hint="Select Date"
+                    android:inputType="textCapWords"
+
+                    android:singleLine="true"
+                    android:textColorHint="#161616"
+                    android:textColor="#161616"/>
+
+                <ImageView
+                    android:id="@+id/IMcalendarArrEdit"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/calendar">
+
+                </ImageView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvLeave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginBottom="10sp"
+                android:fontFamily="monospace"
+                android:text="LeaveAt"
+                android:textColor="#959697"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp">
+                <TextView
+                    android:id="@+id/tvTimeLeaveEdit"
+                    android:layout_weight="1"
+                    android:layout_width="1dp"
+                    android:layout_height="50sp"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="10sp"
+                    android:background="@drawable/et_boxhcn"
+                    android:inputType="textCapWords"
+                    android:singleLine="true"
+                    android:hint="Time"
+                    android:gravity="center"
+                    android:textColorHint="#161616"
+                    android:textColor="#161616"/>
+                <TextView
+                    android:id="@+id/tvDateLeaveEdit"
+                    android:layout_weight="2"
+                    android:layout_width="1dp"
+                    android:layout_height="50sp"
+                    android:layout_marginLeft="5sp"
+                    android:hint="Select Date"
+                    android:layout_marginRight="10sp"
+                    android:background="@drawable/et_boxhcn"
+                    android:inputType="textCapWords"
+
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:textColor="#161616"
+                    android:textColorHint="#161616"
+                    />
+                <ImageView
+                    android:id="@+id/IMcalendarLeaveEdit"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/calendar">
+
+                </ImageView>
+            </LinearLayout>
+            <Button
+                android:id="@+id/btnAddStopPointEdit"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/btn_sign_in"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="Update"
+                android:textColor="#fff"
+                android:textSize="20dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

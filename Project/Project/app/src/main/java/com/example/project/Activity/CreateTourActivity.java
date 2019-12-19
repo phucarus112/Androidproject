@@ -1,24 +1,17 @@
-package com.example.project;
+package com.example.project.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -32,12 +25,9 @@ import android.widget.Toast;
 import com.example.project.APIConnect.APIService;
 import com.example.project.APIConnect.CreateTourRequest;
 import com.example.project.APIConnect.RetrofitClient;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.project.R;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -57,8 +47,8 @@ public class CreateTourActivity extends AppCompatActivity {
     private RadioButton isPrivate;
     public static final int PICK_IMAGE = 1;
     private TextView numsrclat, numsrclong, numdeslat, numdeslong,Source,Des;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    SharedPreferences sharedPreferences,tourSharePreferences;
+    SharedPreferences.Editor editor,tourEditor;
     public static  final String SRC= "SRC";
 
     private int num;
@@ -69,18 +59,19 @@ public class CreateTourActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_tour);
 
         token= getIntent().getStringExtra("token");
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Create Tour");
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         getComponent();
-
         sharedPreferences= getSharedPreferences("data",MODE_PRIVATE);
         editor=  sharedPreferences.edit();
         GetSharePre();
         GetDateMap();
-
+        tourSharePreferences = getSharedPreferences("tourSP",MODE_PRIVATE);
+        tourEditor = sharedPreferences.edit();
+        tourEditor.putString("isCompleted","no");
+        tourEditor.commit();
 
         mDisplayDate1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,31 +125,48 @@ public class CreateTourActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent= new Intent(CreateTourActivity.this,StopPointActivity.class);
-
+                Intent intent= new Intent(CreateTourActivity.this, StopPointActivity.class);
                 num=1;
                 intent.putExtra(SRC,num);
                 intent.putExtra("token",token);
                 PushIntoSharePre();
                 startActivity(intent);
+                SharedPreferences sharedPreferences4 = getSharedPreferences("saveSP",MODE_PRIVATE);
+                if(sharedPreferences4.getString("hoan thanh","").equals("ok"))
+                {
+                    SharedPreferences.Editor editor4 =sharedPreferences4.edit();
+                    editor4.putString("hoan thanh","not ok");
+                    editor4.commit();
+                    finish();
+                }
+
             }
         });
         GgMapDes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CreateTourActivity.this, StopPointActivity.class);
 
+                Intent intent = new Intent(CreateTourActivity.this, StopPointActivity.class);
                 num = 2;
                 intent.putExtra(SRC, num);
                 intent.putExtra("token", token);
                 PushIntoSharePre();
                 startActivity(intent);
+                SharedPreferences sharedPreferences4 = getSharedPreferences("saveSP",MODE_PRIVATE);
+                if(sharedPreferences4.getString("hoan thanh","").equals("ok"))
+                {
+                    SharedPreferences.Editor editor4 =sharedPreferences4.edit();
+                    editor4.putString("hoan thanh","not ok");
+                    editor4.commit();
+                    finish();
+                }
             }
         });
 
         imgChooseImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -171,34 +179,52 @@ public class CreateTourActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String param = (isPrivate.isChecked()) ? "true" : "false";
-
                 Retrofit retrofit = RetrofitClient.getClient();
                 APIService apiService = retrofit.create(APIService.class);
                 if (Name.getText().toString().trim().isEmpty() == false && SetDate1.getText().toString().trim().isEmpty() == false &&
-                SetDate2.getText().toString().trim().isEmpty() == false && Source.getText().toString().trim().isEmpty() == false &&
-                Des.getText().toString().trim().isEmpty() == false && Adult.getText().toString().trim().isEmpty() == false &&
-                Children.getText().toString().trim().isEmpty() == false && MinCost.getText().toString().trim().isEmpty() == false &&
-                MaxCost.getText().toString().trim().isEmpty() == false ) {
+                        SetDate2.getText().toString().trim().isEmpty() == false && Source.getText().toString().trim().isEmpty() == false &&
+                        Des.getText().toString().trim().isEmpty() == false && Adult.getText().toString().trim().isEmpty() == false &&
+                        Children.getText().toString().trim().isEmpty() == false && MinCost.getText().toString().trim().isEmpty() == false &&
+                        MaxCost.getText().toString().trim().isEmpty() == false ) {
                     apiService.createTour(token, Name.getText().toString().trim()
                             , milisecondStart, milisecondEnd
                             , Float.parseFloat(sharedPreferences.getString("numsrclat", "")),
                             Float.parseFloat(sharedPreferences.getString("numsrclong", "")),
-                           0.0F, 0.0F, Boolean.parseBoolean(param),
+                            Float.parseFloat(sharedPreferences.getString("numdeslat", "")),
+                            Float.parseFloat(sharedPreferences.getString("numdeslong", "")),
+                            Boolean.parseBoolean(param),
                             Integer.parseInt(Adult.getText().toString()), Integer.parseInt(Children.getText().toString()),
-                            Integer.parseInt(MinCost.getText().toString()), Integer.parseInt(MaxCost.getText().toString()))
+                            Integer.parseInt(MinCost.getText().toString()), Integer.parseInt(MaxCost.getText().toString()),null)
                             .enqueue(new Callback<CreateTourRequest>() {
                                 @Override
 
                                 public void onResponse(Call<CreateTourRequest> call, Response<CreateTourRequest> response) {
                                     if (response.isSuccessful()) {
+
+                                        Log.e("xem thu",sharedPreferences.getString("numsrclat", "")
+                                               +"///"+ sharedPreferences.getString("numsrclong", "")
+                                                + "///"+sharedPreferences.getString("numdeslat", "")
+                                            +"///"+ sharedPreferences.getString("numdeslong", ""));
                                         Log.e("idtour", String.valueOf(response.body().getId()));
 
-                                        Toast.makeText(CreateTourActivity.this, "Succesffull", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(CreateTourActivity.this, StopPointActivity.class);
+                                        tourSharePreferences = getSharedPreferences("tourSP",MODE_PRIVATE);
+                                        tourEditor = tourSharePreferences.edit();
+                                        tourEditor.putString("isCompleted","yes");
+                                        tourEditor.commit();
 
+                                        SharedPreferences preferences = getSharedPreferences("saveSP",MODE_PRIVATE);
+                                        SharedPreferences.Editor editor1 = preferences.edit();
+                                        editor1.putString("tim sau khi tao","yes");
+                                        editor1.commit();
+
+                                        Toast.makeText(CreateTourActivity.this, "Succesffully", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(CreateTourActivity.this, StopPointActivity.class);
+                                        intent.putExtra("token",token);
+                                        intent.putExtra("tourId",String.valueOf(response.body().getId()));
                                         num = 3;
                                         intent.putExtra(SRC, num);
                                         startActivity(intent);
+                                        finish();
                                     } else {
                                         Toast.makeText(CreateTourActivity.this, response.message(), Toast.LENGTH_SHORT).show();
 
@@ -215,6 +241,20 @@ public class CreateTourActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences4 = getSharedPreferences("saveSP",MODE_PRIVATE);
+        if(sharedPreferences4.getString("hoan thanh","").equals("ok"))
+        {
+            SharedPreferences.Editor editor4 =sharedPreferences4.edit();
+            editor4.putString("hoan thanh","not ok");
+            editor4.commit();
+            finish();
+        }
+    }
+
     private void PushIntoSharePre(){
         editor.putString("nametour",Name.getText().toString().trim());
         editor.putLong("milisecondStart",milisecondStart);
@@ -235,7 +275,7 @@ public class CreateTourActivity extends AppCompatActivity {
                 editor.putString("source", getIntent().getStringExtra(StopPointActivity.ADDRESS));
                 editor.putString("numsrclat", getIntent().getStringExtra(StopPointActivity.SRCLAT));
                 editor.putString("numsrclong", getIntent().getStringExtra(StopPointActivity.SRCLONG));
-
+                editor.commit();
 
             }
             if (getIntent().getIntExtra(StopPointActivity.SRC, 0) == 2) {
@@ -244,12 +284,12 @@ public class CreateTourActivity extends AppCompatActivity {
                 editor.putString("des", getIntent().getStringExtra(StopPointActivity.ADDRESS));
                 editor.putString("numdeslat", getIntent().getStringExtra(StopPointActivity.SRCLAT));
                 editor.putString("numdeslong", getIntent().getStringExtra(StopPointActivity.SRCLONG));
-
+                editor.commit();
             }
         }else if(getIntent().getIntExtra(StopPointActivity.TEMP,0)==5) {
             Source.setText(sharedPreferences.getString("source",""));
             Des.setText(sharedPreferences.getString("des",""));
-               }
+        }
     }
     private  void GetSharePre(){
         Name.setText(sharedPreferences.getString("nametour",""));
@@ -260,7 +300,7 @@ public class CreateTourActivity extends AppCompatActivity {
         Adult.setText(sharedPreferences.getString("adult",""));
         Children.setText(sharedPreferences.getString("children",""));
         MinCost.setText(sharedPreferences.getString("mincost",""));
-       MaxCost.setText(sharedPreferences.getString("maxcost",""));
+        MaxCost.setText(sharedPreferences.getString("maxcost",""));
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

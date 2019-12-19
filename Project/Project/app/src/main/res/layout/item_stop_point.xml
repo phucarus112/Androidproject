@@ -3,25 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="20sp">
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="10sp"
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="80sp">
         <TextView
-            android:textStyle="bold"
-            android:textSize="22dp"
+            android:layout_marginTop="10sp"
+            android:textColor="#000"
+            android:textSize="20dp"
             android:id="@+id/tvNameStopPoint"
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true" />
-        <ImageButton
-            android:id="@+id/imgBtnDelete"
+            android:layout_alignParentLeft="true"
+            android:text="hiifhff"/>
+        <TextView
+            android:layout_marginTop="10sp"
+            android:textColor="#000"
+            android:textSize="20dp"
+            android:id="@+id/tvAddressStopPoint"
+            android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_delete"
-            android:background="#fff"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentLeft="true"
+            android:textStyle="italic|bold"
+            android:layout_below="@+id/tvNameStopPoint"/>
     </RelativeLayout>
 
 

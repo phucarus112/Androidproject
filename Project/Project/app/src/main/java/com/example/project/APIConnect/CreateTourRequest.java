@@ -16,16 +16,16 @@ public class CreateTourRequest {
     private long endDate;
 
     @SerializedName("sourceLat")
-    private float sourceLat;
+    private double sourceLat;
 
     @SerializedName("sourceLong")
-    private float sourceLong;
+    private double sourceLong;
 
     @SerializedName("desLat")
-    private float desLat;
+    private double desLat;
 
     @SerializedName("desLong")
-    private float desLong;
+    private double desLong;
 
     @SerializedName("isPrivate")
     private boolean isPrivate;
@@ -86,32 +86,36 @@ public class CreateTourRequest {
         this.endDate = endDate;
     }
 
-    public float getSourceLat() {
+    public double getSourceLat() {
         return sourceLat;
     }
 
-    public void setSourceLat(float sourceLat) {
+    public void setSourceLat(double sourceLat) {
         this.sourceLat = sourceLat;
     }
 
-    public float getSourceLong() {
+    public double getSourceLong() {
         return sourceLong;
     }
 
-    public void setSourceLong(float sourceLong) {
+    public void setSourceLong(double sourceLong) {
         this.sourceLong = sourceLong;
     }
 
-    public float getDesLat() {
+    public double getDesLat() {
         return desLat;
     }
 
-    public void setDesLat(float desLat) {
+    public void setDesLat(double desLat) {
         this.desLat = desLat;
     }
 
-    public float getDesLong() {
+    public double getDesLong() {
         return desLong;
+    }
+
+    public void setDesLong(double desLong) {
+        this.desLong = desLong;
     }
 
     public void setDesLong(float desLong) {

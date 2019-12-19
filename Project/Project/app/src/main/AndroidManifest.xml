@@ -24,10 +24,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AddStopPoint"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
-        <activity android:name=".CreateTourActivity" />
-        <activity android:name=".StopPointActivity" />
+        <activity android:name=".Activity.ExploreActivity"></activity>
+        <activity
+            android:name=".Activity.EditStopPoint"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+        <activity
+            android:name=".Activity.AddStopPoint"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+        <activity android:name=".Activity.HistoryActivity" />
+        <activity android:name=".Activity.CreateTourActivity" />
+        <activity android:name=".Activity.StopPointActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -37,17 +43,17 @@
             android:value="@string/map_key" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.MainActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Activity_Forget" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Activity.Activity_Forget" />
+        <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".Activity.RegisterActivity" />
     </application>
 
 </manifest>

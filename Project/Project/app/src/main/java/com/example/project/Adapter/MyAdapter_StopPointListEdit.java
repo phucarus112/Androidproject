@@ -1,21 +1,23 @@
-package com.example.project;
+package com.example.project.Adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.example.project.APIConnect.StopPointObject;
+import com.example.project.APIConnect.StopPointObjectEdit;
+import com.example.project.R;
 
 import java.util.ArrayList;
 
-public class MyAdapter_StopPointList extends BaseAdapter {
-
+public class MyAdapter_StopPointListEdit extends BaseAdapter {
     Activity activity;
-    ArrayList<StopPointObject> items;
+    ArrayList<StopPointObjectEdit> items;
 
-    public MyAdapter_StopPointList(Activity activity, ArrayList<StopPointObject> items){
+    public MyAdapter_StopPointListEdit(Activity activity, ArrayList<StopPointObjectEdit> items){
         this.activity = activity;
         this.items=items;
     }
@@ -44,9 +46,9 @@ public class MyAdapter_StopPointList extends BaseAdapter {
         convertView = inflater.inflate(R.layout.item_stop_point, null);
 
         TextView tv = (TextView)convertView.findViewById(R.id.tvNameStopPoint);
-        ImageButton imgBtn = (ImageButton)convertView.findViewById(R.id.imgBtnDelete);
-
-        tv.setText(items.get(position).name);
+        tv.setText(items.get(position).getName());
+        TextView tv2 = (TextView) convertView.findViewById(R.id.tvAddressStopPoint);
+        tv2.setText(items.get(position).getAddress());
 
         return convertView;
     }

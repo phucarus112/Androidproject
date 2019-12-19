@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.Adapter;
 
 import android.net.Uri;
 

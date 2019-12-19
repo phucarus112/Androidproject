@@ -83,12 +83,13 @@
                     android:layout_marginLeft="10sp"
                     android:layout_marginRight="5sp"
                     android:background="@drawable/et_boxhcn"
-
+                    android:layout_weight="1"
                     android:singleLine="true"
                     android:layout_gravity="center"
                     android:gravity="center"/>
 
                 <ImageView
+                    android:layout_weight="1"
                     android:id="@+id/IMcalendar"
                     android:layout_width="40dp"
                     android:layout_height="50dp"
@@ -97,6 +98,7 @@
                 </ImageView>
 
                 <TextView
+                    android:layout_weight="1"
                     android:id="@+id/etEndDay"
                     android:layout_width="140dp"
                     android:layout_height="50sp"
@@ -109,6 +111,7 @@
                     android:singleLine="true" />
 
                 <ImageView
+                    android:layout_weight="1"
                     android:id="@+id/IMcalendar2"
                     android:layout_width="40dp"
                     android:layout_height="50dp"
@@ -133,18 +136,18 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tvSrcLong"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginLeft="120dp"-->
-<!--                    android:layout_marginRight="10sp"-->
-<!--                    android:layout_marginBottom="10sp"-->
-<!--                    android:fontFamily="monospace"-->
-<!--                    android:text="SourceLong"-->
-<!--                    android:textColor="#fff"-->
-<!--                    android:textSize="18sp"-->
-<!--                    android:textStyle="bold" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tvSrcLong"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginLeft="120dp"-->
+                <!--                    android:layout_marginRight="10sp"-->
+                <!--                    android:layout_marginBottom="10sp"-->
+                <!--                    android:fontFamily="monospace"-->
+                <!--                    android:text="SourceLong"-->
+                <!--                    android:textColor="#fff"-->
+                <!--                    android:textSize="18sp"-->
+                <!--                    android:textStyle="bold" />-->
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -173,17 +176,17 @@
 
                 </ImageView>
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tvNumSrcLong"-->
-<!--                    android:layout_width="160dp"-->
-<!--                    android:layout_height="50sp"-->
-<!--                    android:layout_marginLeft="10sp"-->
-<!--                    android:layout_marginRight="5sp"-->
-<!--                    android:background="@drawable/et_box"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:gravity="center"-->
-<!--                    />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tvNumSrcLong"-->
+                <!--                    android:layout_width="160dp"-->
+                <!--                    android:layout_height="50sp"-->
+                <!--                    android:layout_marginLeft="10sp"-->
+                <!--                    android:layout_marginRight="5sp"-->
+                <!--                    android:background="@drawable/et_box"-->
+                <!--                    android:singleLine="true"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:gravity="center"-->
+                <!--                    />-->
 
 
             </LinearLayout>
@@ -202,23 +205,23 @@
                     android:layout_marginRight="10sp"
                     android:layout_marginBottom="10sp"
                     android:fontFamily="monospace"
-                    android:text="SourceLat"
+                    android:text="Destination"
                     android:textColor="#fff"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tvDesLong"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginLeft="120dp"-->
-<!--                    android:layout_marginRight="10sp"-->
-<!--                    android:layout_marginBottom="10sp"-->
-<!--                    android:fontFamily="monospace"-->
-<!--                    android:text="SourceLong"-->
-<!--                    android:textColor="#fff"-->
-<!--                    android:textSize="18sp"-->
-<!--                    android:textStyle="bold" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tvDesLong"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginLeft="120dp"-->
+                <!--                    android:layout_marginRight="10sp"-->
+                <!--                    android:layout_marginBottom="10sp"-->
+                <!--                    android:fontFamily="monospace"-->
+                <!--                    android:text="SourceLong"-->
+                <!--                    android:textColor="#fff"-->
+                <!--                    android:textSize="18sp"-->
+                <!--                    android:textStyle="bold" />-->
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -247,17 +250,17 @@
 
                 </ImageView>
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tvNumDesLong"-->
-<!--                    android:layout_width="160dp"-->
-<!--                    android:layout_height="50sp"-->
-<!--                    android:layout_marginLeft="10sp"-->
-<!--                    android:layout_marginRight="5sp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:gravity="center"-->
-<!--                    android:background="@drawable/et_box"-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tvNumDesLong"-->
+                <!--                    android:layout_width="160dp"-->
+                <!--                    android:layout_height="50sp"-->
+                <!--                    android:layout_marginLeft="10sp"-->
+                <!--                    android:layout_marginRight="5sp"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:background="@drawable/et_box"-->
 
-<!--                    android:singleLine="true" />-->
+                <!--                    android:singleLine="true" />-->
 
 
             </LinearLayout>
@@ -300,6 +303,7 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:layout_weight="2"
                     android:id="@+id/etAdult"
                     android:layout_width="190dp"
                     android:layout_height="50sp"
@@ -311,6 +315,7 @@
                     android:singleLine="true" />
 
                 <EditText
+                    android:layout_weight="2"
                     android:id="@+id/etChildren"
                     android:layout_width="190dp"
                     android:layout_height="50sp"
@@ -360,6 +365,7 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:layout_weight="2"
                     android:id="@+id/etMinCost"
                     android:layout_width="190dp"
                     android:layout_height="50sp"
@@ -371,6 +377,7 @@
                     android:inputType="number"/>
 
                 <EditText
+                    android:layout_weight="2"
                     android:id="@+id/etMaxCost"
                     android:layout_width="190dp"
                     android:layout_height="50sp"

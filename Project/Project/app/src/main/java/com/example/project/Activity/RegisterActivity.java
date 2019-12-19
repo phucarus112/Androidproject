@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,12 +16,7 @@ import com.example.project.APIConnect.APIService;
 import com.example.project.APIConnect.LoginRequest;
 import com.example.project.APIConnect.RegisterRequest;
 import com.example.project.APIConnect.RetrofitClient;
-import com.facebook.share.Share;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
+import com.example.project.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     if(response.isSuccessful())
                                     {
                                         APIService apiService1 = retrofit.create(APIService.class);
+                                        final String temp = response.body().getEmail();
                                         apiService1.login(response.body().getEmail(),etPassword.getText().toString().trim())
                                                 .enqueue(new Callback<LoginRequest>() {
                                                     @Override
@@ -69,13 +65,20 @@ public class RegisterActivity extends AppCompatActivity {
                                                             sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
                                                             SharedPreferences.Editor editor = sharedPreferences.edit();
                                                             editor.putString("isLogined","yes");
+                                                            editor.putString("emailPhone",temp);
+                                                            editor.putString("password",etPassword.getText().toString().trim());
                                                             editor.commit();
                                                             String token=response.body().getToken();
-                                                            Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
+                                                            SharedPreferences sharedPreferences2 = getSharedPreferences("tokenUser",MODE_PRIVATE);
+                                                            SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                                                            editor2.putString("token",response.body().getToken());
+                                                            editor2.commit();
+                                                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                                             intent.putExtra("token",token);
                                                             startActivity(intent);
                                                             finish();
                                                         }
+
                                                     }
 
                                                     @Override

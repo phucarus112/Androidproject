@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StopPointActivity"
+    tools:context=".Activity.StopPointActivity"
     android:id="@+id/stop_point">
     <Button
         android:id="@+id/btn_stopPointList"
@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <SearchView
+            android:layout_weight="4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/location"
@@ -37,8 +38,9 @@
 
         </SearchView>
         <Button
+            android:layout_weight="1"
             android:id="@+id/btnCancel"
-            android:layout_width="60dp"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"

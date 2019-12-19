@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10sp"
+    android:layout_marginTop="10sp"
+    android:layout_marginRight="10sp"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:paddingBottom="10sp"
+    android:id="@+id/special">
+
+    <ImageView
+        android:id="@+id/imageChinh_history"
+        android:layout_width="match_parent"
+        android:layout_height="250sp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/hinhmacdinh" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:paddingLeft="15sp">
+
+        <ImageView
+            android:id="@+id/ImageToaDo"
+            android:layout_width="24dp"
+            android:layout_height="27dp"
+            android:src="@drawable/images" />
+
+        <TextView
+            android:id="@+id/tvName_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:textColor="#0C4A74"
+            android:textSize="23sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:paddingLeft="15sp">
+
+        <ImageView
+            android:id="@+id/ImageLich"
+            android:layout_width="24dp"
+            android:layout_height="27dp"
+            android:src="@drawable/imageslich" />
+
+        <TextView
+            android:id="@+id/tvLich_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:paddingLeft="15sp">
+
+        <ImageView
+            android:id="@+id/ImageNhomNguoi1"
+            android:layout_width="24dp"
+            android:layout_height="27dp"
+            android:src="@drawable/nguoilon" />
+
+        <TextView
+            android:id="@+id/tvNguoi1_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:paddingLeft="15sp">
+
+        <ImageView
+            android:id="@+id/ImageNhomNguoi2"
+            android:layout_width="24dp"
+            android:layout_height="27dp"
+            android:src="@drawable/trenho" />
+
+        <TextView
+            android:id="@+id/tvNguoi2_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:paddingLeft="15sp">
+
+        <ImageView
+            android:id="@+id/ImageTag1"
+            android:layout_width="24dp"
+            android:layout_height="27dp"
+            android:src="@drawable/cost" />
+
+        <TextView
+            android:id="@+id/tvGia_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:textColor="#FF80AB"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <ImageView
+                android:id="@+id/btnEditTour"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+              android:background="@drawable/edit_icon"
+                android:paddingTop="15sp"
+                android:paddingBottom="15sp" />
+            <ImageView
+                android:id="@+id/btnDeleteTour"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/delete_icon"
+                android:paddingTop="15sp"
+                android:paddingBottom="15sp"
+                android:layout_toRightOf="@+id/btnEditTour" />
+            <ImageView
+                android:id="@+id/btnFollowTour"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/follow_icon"
+                android:paddingTop="15sp"
+                android:paddingBottom="15sp"
+                android:layout_toRightOf="@+id/btnDeleteTour" />
+            <ImageView
+                android:id="@+id/btnInviteMember"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/invite_icon"
+                android:paddingTop="15sp"
+                android:paddingBottom="15sp"
+                android:layout_toRightOf="@+id/btnFollowTour" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>

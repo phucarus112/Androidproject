@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="5dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Service"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#F00000"/>
+                <!--        <Button-->
+                <!--            android:id="@+id/btnclose"-->
+                <!--            android:layout_width="35dp"-->
+                <!--            android:layout_height="35dp"-->
+                <!--            android:text="X"-->
+                <!--            android:background="@drawable/circleclose"-->
+                <!--            android:textColor="#fff"-->
+                <!--            android:textSize="20sp"-->
+                <!--            android:layout_alignParentRight="true"-->
+                <!--            android:layout_marginRight="5dp">-->
+                <!--        </Button>-->
+            </RelativeLayout>
+            <TextView
+                android:layout_weight="5"
+                android:id="@+id/tvStopPointName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginBottom="10sp"
+                android:fontFamily="monospace"
+                android:text="Service Name"
+                android:textColor="#959697"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/etStopPointExplore"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="-5sp"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/et_box"
+                android:inputType="textCapWords"
+                android:paddingLeft="20sp"
+                android:singleLine="true"
+                android:textColor="#161616"/>
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginBottom="10sp"
+                android:fontFamily="monospace"
+                android:text="Address"
+                android:textColor="#959697"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"/>
+
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/etAddressExplore"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="-5sp"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/et_box"
+                android:inputType="textCapWords"
+                android:paddingLeft="20sp"
+                android:singleLine="true"
+                android:textColor="#161616"/>
+            <TextView
+                android:id="@+id/tvServiceType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginBottom="10sp"
+                android:fontFamily="monospace"
+                android:text="Service Type"
+                android:textColor="#959697"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"/>
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/spinnerServiceTypeExplore"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/et_box"
+                android:textColor="#161616"
+                android:layout_marginRight="10dp">
+
+            </EditText>
+            <TextView
+                android:id="@+id/tvCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginBottom="10sp"
+                android:fontFamily="monospace"
+                android:text="Province"
+                android:textColor="#959697"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                />
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/spinnerCityExplore"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/et_box"
+                android:textColor="#161616"
+                android:layout_marginRight="10dp"
+                >
+
+            </EditText>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp">
+
+                <TextView
+                    android:id="@+id/tvMinCost"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+
+                    android:layout_marginBottom="10sp"
+                    android:fontFamily="monospace"
+                    android:text="Min Cost"
+                    android:textColor="#959697"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvMaxCost"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginBottom="10sp"
+                    android:fontFamily="monospace"
+                    android:text="Max Cost"
+                    android:textColor="#959697"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginRight="10dp">
+
+                <EditText
+                    android:id="@+id/etMinCostExplore"
+                    android:layout_weight="1"
+                    android:layout_width="1dp"
+                    android:layout_height="50sp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/et_box"
+                    android:paddingLeft="20sp"
+                    android:singleLine="true"
+                    android:textColor="#161616"
+                    android:inputType="number"/>
+
+                <EditText
+                    android:id="@+id/etMaxCostExplore"
+                    android:layout_weight="1"
+                    android:layout_width="1dp"
+                    android:layout_height="50sp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/et_box"
+                    android:paddingLeft="20sp"
+                    android:singleLine="true"
+                    android:textColor="#161616"
+                    android:inputType="number"/>
+            </LinearLayout>
+            <RatingBar
+                android:id="@+id/ratingBarExplore"
+                android:layout_gravity="center"
+               android:paddingTop="25sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/btnAddStopPointExplore"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/btn_sign_in"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="Send"
+                android:textColor="#fff"
+                android:textSize="20dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

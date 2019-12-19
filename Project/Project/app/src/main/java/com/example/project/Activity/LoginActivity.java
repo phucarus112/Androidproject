@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -6,16 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,21 +18,18 @@ import android.widget.Toast;
 import com.example.project.APIConnect.APIService;
 import com.example.project.APIConnect.LoginRequest;
 import com.example.project.APIConnect.RetrofitClient;
+import com.example.project.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.login.Login;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     LoginButton fbLoginButton;
 
-TextView newuser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +56,17 @@ TextView newuser;
         actionBar.hide();
         getFacebookComponent();
         getComponent();
+
+        SharedPreferences sharedPreferences2= getSharedPreferences("tourSP",MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+        editor2.putString("isCompleted","no");
+        editor2.commit();
+        SharedPreferences sharedPreferences3 = getSharedPreferences("saveSP",MODE_PRIVATE);
+        SharedPreferences.Editor editor3 = sharedPreferences3.edit();
+        editor3.putString("have","no");
+        editor3.putString("hoan thanh","not ok");
+        editor3.putString("tim sau khi tao","no");
+        editor3.commit();
 
         sharedPreferences =  sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         String token = sharedPreferences.getString("isLogined","");
@@ -76,9 +78,15 @@ TextView newuser;
                     .enqueue(new Callback<LoginRequest>() {
                         @Override
                         public void onResponse(Call<LoginRequest> call, Response<LoginRequest> response) {
-                            Intent change = new Intent(LoginActivity.this,MainActivity.class);
-                            change.putExtra("token",response.body().getToken());
-                            startActivity(change);
+                                Intent change = new Intent(LoginActivity.this, MainActivity.class);
+                                change.putExtra("token",response.body().getToken());
+                                Log.e("token khi log in",response.body().getToken());
+                                SharedPreferences sharedPreferences2 = getSharedPreferences("tokenUser",MODE_PRIVATE);
+                                SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                                editor2.putString("token",response.body().getToken());
+                                editor2.commit();
+                                startActivity(change);
+
                         }
 
                         @Override
@@ -107,6 +115,10 @@ TextView newuser;
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("isLogined","yes");
                                     editor.commit();
+                                    SharedPreferences sharedPreferences2 = getSharedPreferences("tokenUser",MODE_PRIVATE);
+                                    SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                                    editor2.putString("token",response.body().getToken());
+                                    editor2.commit();
                                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                                     intent.putExtra("token",token);
                                     startActivity(intent);
@@ -211,13 +223,6 @@ TextView newuser;
                 startActivity(intent);
             }
         });
-        newuser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, StopPointActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void getFacebookComponent() {
@@ -257,7 +262,6 @@ TextView newuser;
         etPassWord = (EditText) findViewById(R.id.etPassWord);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         cbRemember = (CheckBox) findViewById(R.id.cbRemember);
-        newuser=(TextView) findViewById(R.id.tvNewUser);
     }
 
 
