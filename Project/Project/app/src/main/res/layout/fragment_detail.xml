@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="10sp"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/backgroud_item"
+                android:orientation="vertical"
+                android:paddingBottom="10sp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:paddingLeft="15sp">
+
+                    <ImageView
+                        android:id="@+id/ImageToaDo"
+                        android:layout_width="24dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/images" />
+
+                    <TextView
+                        android:id="@+id/tvName1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:textColor="#0C4A74"
+                        android:textSize="23sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:paddingLeft="15sp">
+
+                    <ImageView
+                        android:id="@+id/ImageLich"
+                        android:layout_width="24dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/imageslich" />
+
+                    <TextView
+                        android:id="@+id/tvLich"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:paddingLeft="15sp">
+
+                    <ImageView
+                        android:id="@+id/ImageNhomNguoi1"
+                        android:layout_width="24dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/nguoilon" />
+
+                    <TextView
+                        android:id="@+id/tvNguoi1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:paddingLeft="15sp">
+
+                    <ImageView
+                        android:id="@+id/ImageNhomNguoi2"
+                        android:layout_width="24dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/trenho" />
+
+                    <TextView
+                        android:id="@+id/tvNguoi2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:paddingLeft="15sp">
+
+                    <ImageView
+                        android:id="@+id/ImageTag1"
+                        android:layout_width="24dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/cost" />
+
+                    <TextView
+                        android:id="@+id/tvGia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:textColor="#FF80AB"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="10sp"
+                    >
+
+                    <Button
+                        android:id="@+id/btMember"
+                        android:layout_width="110sp"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginRight="10sp"
+                        android:background="@drawable/btindetail"
+
+                        android:paddingLeft="15sp"
+                        android:text="member"
+                        android:textAlignment="center" />
+
+                    <Button
+                        android:id="@+id/btstopPointList"
+                        android:layout_width="110sp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10sp"
+                        android:paddingLeft="15sp"
+                        android:text="Stoppoint"
+                        android:textAlignment="center"
+                        android:background="@drawable/btindetail"
+
+                        />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10sp"
+
+                    >
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvTuyChon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="10sp"
+
+                android:layout_marginRight="10sp"
+                android:background="@drawable/backgroud_item"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageavatar"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_marginLeft="4sp"
+                    android:layout_marginTop="4sp"
+                    android:background="@drawable/hinh_tron"
+
+                    ></ImageView>
+
+                <LinearLayout
+                    android:layout_width="270dp"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical"
+                    android:paddingLeft="10sp">
+
+                    <TextView
+                        android:id="@+id/tvNamecmour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="aa"
+                        android:textColor="#2C2FF7"
+                        android:textDirection="anyRtl"
+                        android:textSize="16sp"></TextView>
+
+                    <EditText
+                        android:id="@+id/edComment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Comment..."
+                        android:textColor="#FA0A0A0A"
+                        android:textColorHighlight="#61947E7E"
+                        android:textColorLink="#8BA89F9F"
+                        android:textSize="14sp">
+                    </EditText>
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/imageButtoncm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25sp"
+                    android:layout_marginRight="1sp"
+                    android:background="#DAFFFFFF"
+                    android:src="@android:drawable/ic_menu_send" />
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                >
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

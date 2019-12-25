@@ -73,4 +73,19 @@ public interface APIService {
     @GET("/tour/get/service-detail")
     Call<DetailServiceResponse> detailService(@Header("Authorization") String token,@Query("serviceId") int serviceId);
 
+
+
+    @POST("/tour/comment")
+    @FormUrlEncoded
+    Call<String> sendComment( @Header("Authorization") String token,@Field("tourId") String tourId, @Field("userId") String userId,@Field("comment") String comment);
+    @GET("/tour/info")
+    Call<InfoTourResponse> getResponseInfoTour(@Header("Authorization") String token,@Query("tourId") int n);
+    @GET("/tour/comment-list")
+    Call<listCommentResponse> getComment(@Header("Authorization") String token,@Query("tourId") int n,@Query("pageIndex") int in,@Query("pageSize") int im);
+    @GET("/tour/get/review-list")
+    Call<reviewResponse> getReview(@Header("Authorization") String token,@Query("tourId") int n,@Query("pageIndex") int in,@Query("pageSize") int im);
+    @GET("/tour/get/review-point-stats")
+    Call<pointResponse> getPointReview(@Header("Authorization") String token,@Query("tourId") int n);
+
+
 }

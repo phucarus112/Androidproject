@@ -1,77 +1,60 @@
 package com.example.project.APIConnect;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-
 public class InfoTourResponse {
 
     @SerializedName("id")
     @Expose
-    private int id;
-
+    private Integer id;
     @SerializedName("hostId")
     @Expose
     private String hostId;
-
     @SerializedName("status")
     @Expose
-    private int status;
-
+    private Integer status;
     @SerializedName("name")
     @Expose
     private String name;
-
     @SerializedName("minCost")
     @Expose
     private String minCost;
-
     @SerializedName("maxCost")
     @Expose
     private String maxCost;
-
     @SerializedName("startDate")
     @Expose
     private String startDate;
-
     @SerializedName("endDate")
     @Expose
     private String endDate;
-
     @SerializedName("adults")
     @Expose
-    private int adults;
-
+    private Integer adults;
     @SerializedName("childs")
     @Expose
-    private int childs;
-
+    private Integer childs;
     @SerializedName("isPrivate")
     @Expose
     private Boolean isPrivate;
-
-    @SerializedName("avatar")
-    @Expose
-    private String avatar;
-
     @SerializedName("stopPoints")
     @Expose
-    private ArrayList<StopPointObjectEdit> stopPointObjectArrayList;
-
+    private List<StopPointObjectEdit> stopPoints = null;
     @SerializedName("comments")
     @Expose
-    private ArrayList<CommentObject> commentObjectArrayList;
-
+    private List<InforComment> comments = null;
     @SerializedName("members")
     @Expose
-    private ArrayList<MemberObject> memberObjectArrayList;
+    private List<MyMember> members = null;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-
-    public void setId(int id) {
+    public InfoTourResponse(){};
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -83,11 +66,11 @@ public class InfoTourResponse {
         this.hostId = hostId;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -116,7 +99,14 @@ public class InfoTourResponse {
     }
 
     public String getStartDate() {
-        return startDate;
+
+        try{
+            long t=Long.parseLong(startDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("E, dd MM yyyy ");
+            Date date = new Date(t);
+            return sdf.format(date).toString();}
+        catch (Exception e){}
+        return "No start date";
     }
 
     public void setStartDate(String startDate) {
@@ -124,66 +114,66 @@ public class InfoTourResponse {
     }
 
     public String getEndDate() {
-        return endDate;
+
+        try{
+            long t=Long.parseLong(endDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("E, dd MM yyyy ");
+            Date date = new Date(t);
+            return sdf.format(date).toString();}
+        catch (Exception e){}
+        return "No start date";
     }
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-    public int getAdults() {
+    public Integer getAdults() {
         return adults;
     }
 
-    public void setAdults(int adults) {
+    public void setAdults(Integer adults) {
         this.adults = adults;
     }
 
-    public int getChilds() {
+    public Integer getChilds() {
         return childs;
     }
 
-    public void setChilds(int childs) {
+    public void setChilds(Integer childs) {
         this.childs = childs;
     }
 
-    public Boolean getPrivate() {
+    public Boolean getIsPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(Boolean aPrivate) {
-        isPrivate = aPrivate;
+    public void setIsPrivate(Boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public List<StopPointObjectEdit> getStopPoints() {
+        return stopPoints;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setStopPoints(List<StopPointObjectEdit> stopPoints) {
+        this.stopPoints = stopPoints;
     }
 
-    public ArrayList<StopPointObjectEdit> getStopPointObjectArrayList() {
-        return stopPointObjectArrayList;
+    public List<InforComment> getComments() {
+        return comments;
     }
 
-    public void setStopPointObjectArrayList(ArrayList<StopPointObjectEdit> stopPointObjectArrayList) {
-        this.stopPointObjectArrayList = stopPointObjectArrayList;
+    public void setComments(List<InforComment> comments) {
+        this.comments = comments;
     }
 
-    public ArrayList<CommentObject> getCommentObjectArrayList() {
-        return commentObjectArrayList;
+    public List<MyMember> getMembers() {
+        return members;
     }
 
-    public void setCommentObjectArrayList(ArrayList<CommentObject> commentObjectArrayList) {
-        this.commentObjectArrayList = commentObjectArrayList;
+    public void setMembers(List<MyMember> members) {
+        this.members = members;
     }
 
-    public ArrayList<MemberObject> getMemberObjectArrayList() {
-        return memberObjectArrayList;
-    }
-
-    public void setMemberObjectArrayList(ArrayList<MemberObject> memberObjectArrayList) {
-        this.memberObjectArrayList = memberObjectArrayList;
-    }
 }

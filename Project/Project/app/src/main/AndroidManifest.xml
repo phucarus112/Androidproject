@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.ExploreActivity"></activity>
+        <activity android:name=".Activity.Detail_Review" />
+        <activity android:name=".Activity.ExploreActivity" />
         <activity
             android:name=".Activity.EditStopPoint"
             android:theme="@style/Theme.AppCompat.Dialog.Alert" />

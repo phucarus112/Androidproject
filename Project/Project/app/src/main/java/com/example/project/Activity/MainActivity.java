@@ -13,9 +13,11 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         actionBar.setCustomView(v);
         Intent i = getIntent();
         final String Token = i.getStringExtra("token");
+        final int userId=i.getIntExtra("userId",0);
         Retrofit retrofit = RetrofitClient.getClient();
         APIService apiService = retrofit.create(APIService.class);
         apiService.getResponseListTour(Token,515,1).enqueue(new Callback<ListToursResponse>() {
@@ -119,13 +122,31 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             public void onResponse(Call<ListToursResponse> call, Response<ListToursResponse> response) {
                 if(response.isSuccessful())
                 {
-                    ArrayList<Tour> list= (ArrayList<Tour>) response.body().getTours();
+                   final ArrayList<Tour> list= (ArrayList<Tour>) response.body().getTours();
                     listView=(RecyclerView) findViewById(R.id.rvTours);
                     adapter=new MyAdapter(list);
                     listView.setAdapter(adapter);
                     listView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                     countTour=(TextView)findViewById(R.id.countTour);
                     countTour.setText(response.body().getTotal().toString()+ " trips");
+
+                    listView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), listView, new ClickListener() {
+
+                        @Override
+                        public void onClick(View view, int position) {
+
+                            Intent intent = new Intent(MainActivity.this, Detail_Review.class);
+                            intent.putExtra("token", Token);
+                            intent.putExtra("tourId",list.get(position).getId());
+                            intent.putExtra("userId",userId);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onLongClick(View view, int position) {
+
+                        }
+                    }));
                 }
             }
             @Override
@@ -164,6 +185,63 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         String text = newText;
         adapter.getFilter().filter(newText);
         return false;
+    }
+
+
+
+    public interface ClickListener {
+        void onClick(View view, int position);
+
+        void onLongClick(View view, int position);
+    }
+
+    static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+        private GestureDetector gestureDetector;
+        private ClickListener clickListener;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
+            this.clickListener = clickListener;
+
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+
+
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+
+                    return true;
+                }
+                @Override
+                public void onLongPress(MotionEvent e) {
+
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clickListener != null) {
+                        clickListener.onLongClick(child, recyclerView.getChildLayoutPosition(child));
+                    }
+                }
+            });
+
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
+                clickListener.onClick(child, rv.getChildLayoutPosition(child));
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
+
+
     }
 
 

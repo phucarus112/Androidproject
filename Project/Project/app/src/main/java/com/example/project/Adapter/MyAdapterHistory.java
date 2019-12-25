@@ -259,7 +259,7 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                                             final Dialog dialog1 = new Dialog(context);
                                             dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                             dialog1.setContentView(R.layout.stop_point_list_edit);
-                                            final ArrayList<StopPointObjectEdit> spObj = response.body().getStopPointObjectArrayList();
+                                            final ArrayList<StopPointObjectEdit> spObj = (ArrayList<StopPointObjectEdit>)response.body().getStopPoints();
 
                                             ListView listView1 = (ListView) dialog1.findViewById(R.id.lvStopPointListEdit);
                                             MyAdapter_StopPointListEdit myAdapter_stopPointList = new
