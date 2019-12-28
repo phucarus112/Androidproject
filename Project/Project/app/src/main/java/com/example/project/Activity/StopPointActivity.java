@@ -401,7 +401,7 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
             }
         };
 
-        addLocationPermission();
+        //addLocationPermission();
 
         map.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
             @Override

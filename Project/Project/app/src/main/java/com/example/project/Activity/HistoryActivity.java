@@ -97,7 +97,13 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
                         //Toast.makeText(com.example.project.Activity.MainActivity.this, "notifications", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.navigation_Setting:
-                       // Toast.makeText(com.example.project.Activity.MainActivity.this, "setting", Toast.LENGTH_SHORT).show();
+                        Token = getIntent().getStringExtra("token");
+                        overridePendingTransition(0, 0);
+                        Intent intent3 = new Intent(HistoryActivity.this, ActivitySetting.class);
+                        intent3.putExtra("token",Token);
+                        startActivity(intent3);
+                        overridePendingTransition(0, 0);
+                        finish();
                         break;
                 }
                 return false;

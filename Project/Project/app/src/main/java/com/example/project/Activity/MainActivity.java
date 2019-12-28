@@ -105,7 +105,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                         Toast.makeText(MainActivity.this, "notifications", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.navigation_Setting:
-                        Toast.makeText(MainActivity.this, "setting", Toast.LENGTH_SHORT).show();
+                        final int userId3 = getIntent().getIntExtra("userId",0);
+                        String Token3 = getIntent().getStringExtra("token");
+                        overridePendingTransition(0, 0);
+                        Intent intent3= new Intent(MainActivity.this, ActivitySetting.class);
+                        intent3.putExtra("token",Token3);
+                        intent3.putExtra("userId",userId3);
+                        startActivity(intent3);
+                        overridePendingTransition(0, 0);
+                        finish();
                         break;
                 }
                 return false;
@@ -243,61 +251,5 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
         }
-
-
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId())
-        {
-            case R.id.optionLogout:
-                showDialog();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    Dialog dialog;
-    Button btnYes, btnNo;
-    ImageButton imgBtnClose;
-
-    private void showDialog() {
-        dialog = new Dialog(MainActivity.this);
-        dialog.setContentView(R.layout.dialog);
-        dialog.setTitle("Do you want to sign out?");
-        btnYes = (Button) dialog.findViewById(R.id.btnYes);
-        btnNo = (Button) dialog.findViewById(R.id.btnNo);
-
-        dialog.show();
-
-        btnYes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("isLogined","no");
-                if(sharedPreferences.getString("isLoginedFB","").equals("yes"))
-                {
-                    LoginManager.getInstance().logOut();
-                    editor.putString("isLoginedFB","no");
-                }
-                editor.commit();
-
-                finish();
-            }
-        });
-        btnNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.cancel();
-            }
-        });
-
     }
 }

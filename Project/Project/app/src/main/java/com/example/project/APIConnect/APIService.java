@@ -122,4 +122,15 @@ public interface APIService {
     @FormUrlEncoded
     Call<ResponseBody> verifyOTP(@Field("userId") int userId, @Field("newPassword") String newPassword, @Field("verifyCode") String verifyCode);
 
+    @GET("/user/info")
+    Call<UserInfoResponse>  getUsetInfo(@Header("Authorization") String token);
+
+    @POST("/user/edit-info")
+    @FormUrlEncoded
+    Call<ResponseBody> updateUserInfo(@Header("Authorization") String token,@Field("fullName") String fullName, @Field("gender") int gender, @Field("dob") String dob);
+
+    @POST("/user/update-password")
+    @FormUrlEncoded
+    Call<ResponseBody> updatePassword(@Header("Authorization") String token,@Field("userId") int userId,@Field("currentPassword") String currentPassword,
+                                      @Field("newPassword") String newPassword);
 }

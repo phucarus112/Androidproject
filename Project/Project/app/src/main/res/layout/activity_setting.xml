@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ActivitySetting"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_background"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:foreground="@drawable/user"
+            android:layout_width="94dp"
+            android:layout_height="90dp"
+            android:layout_margin="15dp"
+            android:background="@drawable/circleavatar">
+
+        </ImageView>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:id="@+id/nameUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lưu Đặng Kỳ Quân"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="#3F51B5">
+            </TextView>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/EditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Edit profile >"
+                    android:textStyle="bold">
+                </TextView>
+                <TextView
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/EditProfilePass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Edit password >"
+                    android:textStyle="bold">
+                </TextView>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/border"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:text="Language"
+            android:layout_marginLeft="20dp"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            >
+        </TextView>
+        <Spinner
+
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="3"
+            android:id="@+id/spinnerlanguage"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/et_box"
+            android:textColor="#161616"
+            android:layout_marginRight="10dp"
+            >
+        </Spinner>
+    </LinearLayout>
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_sign_in"
+        android:gravity="center"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="Log Out"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:layout_margin="40dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_alignParentBottom="true"
+            android:id="@+id/navigation_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:foreground="?attr/selectableItemBackground"
+            app:menu="@menu/navigation"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -24,7 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.FollowTourActivity"></activity>
+        <activity android:name=".Activity.UpdatePassword"></activity>
+        <activity android:name=".Activity.EditProfile" />
+        <activity android:name=".Activity.ActivitySetting" />
+        <activity android:name=".Activity.FollowTourActivity" />
         <activity android:name=".Activity.Detail_Review" />
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>

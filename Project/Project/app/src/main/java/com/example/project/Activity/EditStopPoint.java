@@ -61,6 +61,7 @@ public class EditStopPoint extends AppCompatActivity {
     ArrayList<ServiceType> serviceTypeArrayList= new ArrayList<>();
     String origin_DateArrive,origin_DateLeave, origin_TimeArrive,origin_TimeLeave;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
