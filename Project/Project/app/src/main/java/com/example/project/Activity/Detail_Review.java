@@ -25,7 +25,7 @@ public class Detail_Review extends AppCompatActivity implements Detail.OnFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail__review2);
+        setContentView(R.layout.activity_detail_review2);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         TabLayout tabLayout= (TabLayout) findViewById(R.id.tabs);
@@ -78,4 +78,3 @@ public class Detail_Review extends AppCompatActivity implements Detail.OnFragmen
 
     }
 }
-

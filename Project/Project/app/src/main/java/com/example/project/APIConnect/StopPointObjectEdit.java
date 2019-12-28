@@ -56,6 +56,18 @@ public class StopPointObjectEdit {
     @Expose
     private int serviceId;
 
+    @SerializedName("index")
+    @Expose
+    private int index;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     public int getServiceId() {
         return serviceId;
     }

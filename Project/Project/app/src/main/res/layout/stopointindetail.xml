@@ -6,6 +6,7 @@
     android:background="@drawable/br"
     android:orientation="horizontal"
     android:paddingBottom="10sp"
+    android:id="@+id/ll"
     >
     <ImageView
         android:id="@+id/imageavatar"
@@ -49,4 +50,4 @@
 
         </TextView>
     </LinearLayout>
-</LinearLayout>
+</LinearLayout> 

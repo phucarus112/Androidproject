@@ -129,17 +129,18 @@ public class Review extends Fragment {
                 Float tl;
                 Integer tg=list.get(0).getTotal()+list.get(1).getTotal()+list.get(2).getTotal()+list.get(3).getTotal()+list.get(4).getTotal();
                 Tong.setText(tg.toString());
-                tl= (float) ((list.get(0).getPoint() * list.get(0).getTotal()+list.get(1).getPoint() * list.get(1).getTotal()+ list.get(2).getPoint() * list.get(2).getTotal()+list.get(3).getPoint() * list.get(3).getTotal()+list.get(4).getPoint() * list.get(4).getTotal())/tg);
-                rating.setRating(tl);
-                tyLe.setText(tl.toString()+"/5");
+                if(tg!=0)
+                {
+                    tl= (float) ((list.get(0).getPoint() * list.get(0).getTotal()+list.get(1).getPoint() * list.get(1).getTotal()+ list.get(2).getPoint() * list.get(2).getTotal()+list.get(3).getPoint() * list.get(3).getTotal()+list.get(4).getPoint() * list.get(4).getTotal())/tg);
+                    rating.setRating(tl);
+                    tyLe.setText(tl.toString()+"/5");
 
-                pro1.setProgress(100*list.get(0).getTotal()/tg);
-                pro2.setProgress((int)(100*list.get(1).getTotal()/tg));
-                pro3.setProgress((int)100*list.get(2).getTotal()/tg);
-                pro4.setProgress((int)100*list.get(3).getTotal()/tg);
-                pro5.setProgress((int)100*list.get(4).getTotal()/tg);
-
-
+                    pro1.setProgress(100*list.get(0).getTotal()/tg);
+                    pro2.setProgress((int)(100*list.get(1).getTotal()/tg));
+                    pro3.setProgress((int)100*list.get(2).getTotal()/tg);
+                    pro4.setProgress((int)100*list.get(3).getTotal()/tg);
+                    pro5.setProgress((int)100*list.get(4).getTotal()/tg);
+                }
             }
 
             @Override

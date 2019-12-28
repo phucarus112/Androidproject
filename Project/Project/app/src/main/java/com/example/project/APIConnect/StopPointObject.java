@@ -65,8 +65,33 @@ public class StopPointObject {
     @Expose
     private String avatar;
 
+    @SerializedName("id")
+    @Expose
+    private String id;
+
+    @SerializedName("serviceId")
+    @Expose
+    private String serviceId;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
+    }
+
     public StopPointObject(String name, String address, int provinceId, double lat, double longtitude,
-                           long arrivalAt, long leaveAt, int serviceTypeId, float minCost, float maxCost, String avatar) {
+                           long arrivalAt, long leaveAt, int serviceTypeId, float minCost, float maxCost,
+                           String avatar, String id, String serviceId) {
         this.name = name;
         this.address = address;
         this.provinceId = provinceId;
@@ -78,6 +103,8 @@ public class StopPointObject {
         this.minCost = minCost;
         this.maxCost = maxCost;
         this.avatar = avatar;
+        this.id = id;
+        this.serviceId = serviceId;
     }
 
     public String getName() {

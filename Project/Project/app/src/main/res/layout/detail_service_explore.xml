@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background">
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:fillViewport="true"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginHorizontal="5dp"
             android:layout_marginVertical="5dp">
+
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_marginBottom="20dp">
                 <TextView
@@ -26,17 +31,6 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="#F00000"/>
-                <!--        <Button-->
-                <!--            android:id="@+id/btnclose"-->
-                <!--            android:layout_width="35dp"-->
-                <!--            android:layout_height="35dp"-->
-                <!--            android:text="X"-->
-                <!--            android:background="@drawable/circleclose"-->
-                <!--            android:textColor="#fff"-->
-                <!--            android:textSize="20sp"-->
-                <!--            android:layout_alignParentRight="true"-->
-                <!--            android:layout_marginRight="5dp">-->
-                <!--        </Button>-->
             </RelativeLayout>
             <TextView
                 android:layout_weight="5"
@@ -50,7 +44,6 @@
                 android:textColor="#959697"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
             <EditText
                 android:layout_weight="1"
                 android:id="@+id/etStopPointExplore"
@@ -78,6 +71,7 @@
                 android:layout_marginTop="10dp"/>
 
             <EditText
+                android:paddingRight="5sp"
                 android:layout_weight="1"
                 android:id="@+id/etAddressExplore"
                 android:layout_width="match_parent"
@@ -103,6 +97,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"/>
             <EditText
+                android:paddingLeft="20sp"
                 android:layout_weight="1"
                 android:id="@+id/spinnerServiceTypeExplore"
                 android:layout_width="match_parent"
@@ -111,7 +106,6 @@
                 android:background="@drawable/et_box"
                 android:textColor="#161616"
                 android:layout_marginRight="10dp">
-
             </EditText>
             <TextView
                 android:id="@+id/tvCity"
@@ -127,6 +121,7 @@
                 android:layout_marginTop="10dp"
                 />
             <EditText
+                android:paddingLeft="20sp"
                 android:layout_weight="1"
                 android:id="@+id/spinnerCityExplore"
                 android:layout_width="match_parent"
@@ -134,17 +129,14 @@
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/et_box"
                 android:textColor="#161616"
-                android:layout_marginRight="10dp"
-                >
-
+                android:layout_marginRight="10dp">
             </EditText>
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20sp">
-
                 <TextView
                     android:id="@+id/tvMinCost"
                     android:layout_weight="1"
@@ -161,10 +153,10 @@
 
                 <TextView
                     android:id="@+id/tvMaxCost"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginLeft="110sp"
                     android:layout_marginBottom="10sp"
                     android:fontFamily="monospace"
                     android:text="Max Cost"
@@ -176,54 +168,216 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginRight="10dp">
+                android:layout_marginHorizontal="3dp">
 
                 <EditText
+                    android:layout_weight="1"
                     android:id="@+id/etMinCostExplore"
-                    android:layout_weight="1"
-                    android:layout_width="1dp"
+                    android:layout_width="140dp"
                     android:layout_height="50sp"
-                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="10sp"
                     android:background="@drawable/et_box"
                     android:paddingLeft="20sp"
-                    android:singleLine="true"
-                    android:textColor="#161616"
-                    android:inputType="number"/>
+                    android:singleLine="true" />
 
                 <EditText
-                    android:id="@+id/etMaxCostExplore"
                     android:layout_weight="1"
-                    android:layout_width="1dp"
+                    android:id="@+id/etMaxCostExplore"
+                    android:layout_width="140sp"
                     android:layout_height="50sp"
-                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/et_box"
                     android:paddingLeft="20sp"
-                    android:singleLine="true"
-                    android:textColor="#161616"
-                    android:inputType="number"/>
+                    android:singleLine="true" />
             </LinearLayout>
             <RatingBar
+                android:numStars="5"
+                android:clickable="true"
                 android:id="@+id/ratingBarExplore"
                 android:layout_gravity="center"
                android:paddingTop="25sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <Button
-                android:id="@+id/btnAddStopPointExplore"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
+            <LinearLayout
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/btn_sign_in"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:text="Send"
-                android:textColor="#fff"
-                android:textSize="20dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:layout_marginLeft="10sp"
+                    android:background="@drawable/img_circle"
+                    android:src="@drawable/user"
+                    android:layout_marginTop="25sp"/>
+                <EditText
+                    android:id="@+id/etFeedbackExplore"
+                    android:layout_weight="1"
+                    android:layout_marginRight="20sp"
+                  android:singleLine="true"
+                    android:layout_marginTop="25sp"
+                    android:layout_marginLeft="10sp"
+                    android:layout_width="300sp"
+                    android:layout_height="wrap_content"
+                    android:hint="Your comment"/>
+                <Button
+                    android:id="@+id/btnFeedbackExplore"
+                    android:layout_width="90sp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/btn_sign_in"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:text="Send"
+                    android:textColor="#fff"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/pointFB"
+                        android:layout_width="190sp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="#0A0909"
+                        android:textSize="39sp" />
+                    <RatingBar
+                        android:layout_gravity="center"
+                        android:id="@+id/ratingService"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:clickable="true"
+                        android:progressTint="#FFD740"
+                        android:stepSize="0.1" />
+                    <TextView
+                        android:id="@+id/tongDanhGiaService"
+                        android:layout_width="190sp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="#740A0909"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textColor="#F00F0F0F" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2"
+                            android:textColor="#F00F0F0F" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3"
+                            android:textColor="#F00F0F0F" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4"
+                            android:textColor="#F00F0F0F" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5"
+                            android:textColor="#F00F0F0F" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginRight="15sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ProgressBar
+                            android:id="@+id/progressBar1Service"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2sp"
+                            android:progressTint="#FFD740" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar2Service"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3sp"
+                            android:progressTint="#FFD740" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar3Service"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3sp"
+                            android:progressTint="#FFD740" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar4Service"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3sp"
+                            android:progressTint="#FFD740" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar5Service"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3sp"
+                            android:progressTint="#FFD740" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="1000dp"
+                    android:fillViewport="true">
+
+                    <ListView
+                        android:id="@+id/lvComment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </ScrollView>
+
+            </FrameLayout>
         </LinearLayout>
+
     </ScrollView>
-</LinearLayout>
+</FrameLayout>

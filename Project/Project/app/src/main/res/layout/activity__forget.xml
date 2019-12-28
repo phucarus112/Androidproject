@@ -13,53 +13,62 @@
         android:text="Forget Password"
         android:textSize="30sp"
         android:gravity="center"/>
-
     <TextView
+        android:layout_marginBottom="20sp"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:fontFamily="monospace"
         android:layout_width="match_parent"
-        android:layout_height="60sp"
+        android:layout_height="wrap_content"
         android:paddingLeft="5sp"
         android:layout_marginTop="30sp"
         android:text="Select which contact details should we use to reset your password"
-        android:textColor="#0984e3"
-        android:textSize="23sp" />
-    <RelativeLayout
+        android:textSize="15sp" />
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50sp"
-        android:layout_marginTop="30sp"
-        android:layout_marginLeft="5sp"
-        android:layout_marginRight="5sp"
-        >
-
-        <Button
-            android:id="@+id/mess"
-            android:layout_width="180sp"
-            android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_weight="4"
+            android:id="@+id/edtext"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:hint="Enter your email"
             android:background="@drawable/et_box"
-            android:text="Via mess"
-            android:textColor="#A3776A6A" />
-
-        <Button
-            android:id="@+id/Gmail"
-            android:layout_width="180sp"
-            android:layout_height="match_parent"
-            android:background="@drawable/buttonan"
-            android:text="Via Gmail"
-            android:layout_alignParentRight="true"
-            android:textColor="#A3776A6A"
-            />
-    </RelativeLayout>
+            android:paddingLeft="10sp"
+            android:layout_marginRight="5sp"
+            android:layout_marginLeft="5sp"/>
+        <ImageView
+            android:id="@+id/imgSendFP"
+            android:layout_marginTop="-15sp"
+            android:layout_weight="1"
+            android:layout_width="80sp"
+            android:layout_height="80sp"
+            android:src="@android:drawable/ic_menu_send"/>
+    </LinearLayout>
     <EditText
-        android:id="@+id/edtext"
+        android:id="@+id/etOtpFP"
+        android:layout_marginTop="20sp"
         android:singleLine="true"
         android:layout_width="match_parent"
         android:layout_height="50sp"
-        android:layout_marginTop="20sp"
-        android:hint="Enter your phone number"
-        android:background="@drawable/et_box"
+        android:hint="Enter OTP code"
         android:paddingLeft="10sp"
+        android:background="@drawable/et_box"
         android:layout_marginRight="5sp"
         android:layout_marginLeft="5sp"/>
-
+    <EditText
+        android:id="@+id/etnewPassFP"
+        android:layout_marginTop="20sp"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:hint="Enter new password"
+        android:paddingLeft="10sp"
+        android:background="@drawable/et_box"
+        android:layout_marginRight="5sp"
+        android:layout_marginLeft="5sp"/>
     <Button
         android:id="@+id/submit"
         android:layout_width="180sp"
@@ -69,5 +78,4 @@
         android:background="@drawable/btn_sign_in"
         android:text="Submit"
         android:textColor="#D8FFFFFF" />
-
 </LinearLayout>

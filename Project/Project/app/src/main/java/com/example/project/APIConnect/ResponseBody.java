@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class ResponseBody {
 
+    @SerializedName("message")
+    @Expose
     private String message;
 
     public String getMessage() {

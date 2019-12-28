@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <SearchView
+                android:iconifiedByDefault="false"
+                android:elevation="5dp"
+                android:id="@+id/etInputEmailMember"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginTop="15sp"
+                android:background="@drawable/et_box"
+                android:layout_marginBottom="20sp"
+                android:singleLine="true"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:queryHint="Search member email"/>
+        </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:fillViewport="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+                <ListView
+                    android:id="@+id/lvRS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+        </ScrollView>
+    </FrameLayout>
+    </LinearLayout>

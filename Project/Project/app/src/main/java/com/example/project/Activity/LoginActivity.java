@@ -23,6 +23,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -57,51 +59,13 @@ public class LoginActivity extends AppCompatActivity {
         getFacebookComponent();
         getComponent();
 
-        SharedPreferences sharedPreferences2= getSharedPreferences("tourSP",MODE_PRIVATE);
-        SharedPreferences.Editor editor2 = sharedPreferences2.edit();
-        editor2.putString("isCompleted","no");
-        editor2.commit();
-        SharedPreferences sharedPreferences3 = getSharedPreferences("saveSP",MODE_PRIVATE);
-        SharedPreferences.Editor editor3 = sharedPreferences3.edit();
-        editor3.putString("have","no");
-        editor3.putString("hoan thanh","not ok");
-        editor3.putString("tim sau khi tao","no");
-        editor3.commit();
-
-        sharedPreferences =  sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-        String token = sharedPreferences.getString("isLogined","");
-        if(token.equals("yes")){
-            Retrofit retrofit = RetrofitClient.getClient();
-            APIService apiService = retrofit.create(APIService.class);
-            apiService.login(sharedPreferences.getString("emailPhone",""),
-                    sharedPreferences.getString("password",""))
-                    .enqueue(new Callback<LoginRequest>() {
-                        @Override
-                        public void onResponse(Call<LoginRequest> call, Response<LoginRequest> response) {
-                                Intent change = new Intent(LoginActivity.this, MainActivity.class);
-                                change.putExtra("token",response.body().getToken());
-                                Log.e("token khi log in",response.body().getToken());
-                                SharedPreferences sharedPreferences2 = getSharedPreferences("tokenUser",MODE_PRIVATE);
-                                SharedPreferences.Editor editor2 = sharedPreferences2.edit();
-                                editor2.putString("token",response.body().getToken());
-                                editor2.commit();
-                                startActivity(change);
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<LoginRequest> call, Throwable t) {
-                            Toast.makeText(LoginActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-        }
-
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
+
                 Retrofit retrofit = RetrofitClient.getClient();
                 APIService apiService = retrofit.create(APIService.class);
+                Log.e("token",loginResult.getAccessToken().getToken());
 
                 apiService.loginFacebook(loginResult.getAccessToken().getToken())
                         .enqueue(new Callback<LoginRequest>() {
@@ -110,10 +74,12 @@ public class LoginActivity extends AppCompatActivity {
                                 if(response.isSuccessful())
                                 {
                                     String token=response.body().getToken();
-                                    Toast.makeText(LoginActivity.this, "Login Facebook successfully", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(LoginActivity.this, "Login Facebook successfully", Toast.LENGTH_SHORT).show();
                                     sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("isLogined","yes");
+                                    editor.putString("isLoginedFB","yes");
+                                    editor.putString("tokenFB",token);
                                     editor.commit();
                                     SharedPreferences sharedPreferences2 = getSharedPreferences("tokenUser",MODE_PRIVATE);
                                     SharedPreferences.Editor editor2 = sharedPreferences2.edit();
@@ -168,7 +134,6 @@ public class LoginActivity extends AppCompatActivity {
 
                                     //luu vao shared prefrence neu checkboc duoc tick
                                     String token=response.body().getToken();
-                                    Log.e("test",token);
 
                                     if (cbRemember.isChecked()) {
                                         sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
@@ -181,8 +146,16 @@ public class LoginActivity extends AppCompatActivity {
                                             editor.putBoolean("checked", true);
                                             editor.putString("isLogined","yes");
                                             editor.commit();
-                                            Log.e("Da luu", "da luu");
                                         }
+                                    }
+                                    else
+                                    {
+                                        SharedPreferences.Editor myEditor = sharedPreferences.edit();
+                                       myEditor.putString("emailPhone", etEmailPhone.getText().toString().trim());
+                                        myEditor.putString("password", etPassWord.getText().toString().trim());
+                                       myEditor.putString("isLogined","yes");
+                                        myEditor.putBoolean("checked",false);
+                                        myEditor.commit();
                                     }
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.putExtra("token",token);

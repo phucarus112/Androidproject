@@ -23,7 +23,8 @@ public interface APIService {
     @POST("/user/register")
     @FormUrlEncoded
     Call<RegisterRequest> signup(@Field("fullName") String fullName, @Field("email") String email,
-                                 @Field("phone") String phone, @Field("password") String password);
+                                 @Field("phone") String phone, @Field("password") String password,
+                                 @Field("address") String address, @Field("gender") int gender, @Field("dob") String dob);
 
     @POST("/user/login/by-facebook")
     @FormUrlEncoded
@@ -73,19 +74,52 @@ public interface APIService {
     @GET("/tour/get/service-detail")
     Call<DetailServiceResponse> detailService(@Header("Authorization") String token,@Query("serviceId") int serviceId);
 
+    @POST("/tour/add/feedback-service")
+    @FormUrlEncoded
+    Call<ResponseBody> sendFeedback(@Header("Authorization") String token, @Field("serviceId") int serviceId,
+                                    @Field("feedback") String feedback, @Field("point") int point);
 
+    @Headers("Content-Type: application/json")
+    @GET("/tour/get/feedback-service")
+    Call<ListCommentServiceResponse> getListCommentService(@Header("Authorization") String token,@Query("serviceId") int serviceId,
+                                              @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
+
+    @Headers("Content-Type: application/json")
+    @GET("/tour/get/feedback-point-stats")
+    Call<PointServiceResponse> getPointFeedbackService(@Header("Authorization") String token,@Query("serviceId") int serviceId);
+
+    @POST("/tour/add/member")
+    @FormUrlEncoded
+    Call<ResponseBody> inviteMember(@Header("Authorization") String token, @Field("tourId") String tourId,
+                                    @Field("invitedUserId") String invitedUserId, @Field("isInvited") boolean isInvited);
+
+    @Headers("Content-Type: application/json")
+    @GET("/user/search")
+    Call<SearchUserResponse> getListUsersSearch(@Query("searchKey") String searchKey, @Query("pageIndex") int pageIndex,
+                                                @Query("pageSize") int pageSize);
 
     @POST("/tour/comment")
     @FormUrlEncoded
     Call<String> sendComment( @Header("Authorization") String token,@Field("tourId") String tourId, @Field("userId") String userId,@Field("comment") String comment);
     @GET("/tour/info")
+
     Call<InfoTourResponse> getResponseInfoTour(@Header("Authorization") String token,@Query("tourId") int n);
     @GET("/tour/comment-list")
+
     Call<listCommentResponse> getComment(@Header("Authorization") String token,@Query("tourId") int n,@Query("pageIndex") int in,@Query("pageSize") int im);
     @GET("/tour/get/review-list")
+
     Call<reviewResponse> getReview(@Header("Authorization") String token,@Query("tourId") int n,@Query("pageIndex") int in,@Query("pageSize") int im);
     @GET("/tour/get/review-point-stats")
+
     Call<pointResponse> getPointReview(@Header("Authorization") String token,@Query("tourId") int n);
 
+    @POST("/user/request-otp-recovery")
+    @FormUrlEncoded
+    Call<OTPResponse> requestOTP(@Field("type") String type, @Field("value") String value);
+
+    @POST("/user/verify-otp-recovery")
+    @FormUrlEncoded
+    Call<ResponseBody> verifyOTP(@Field("userId") int userId, @Field("newPassword") String newPassword, @Field("verifyCode") String verifyCode);
 
 }

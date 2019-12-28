@@ -24,14 +24,24 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.project.APIConnect.APIService;
+import com.example.project.APIConnect.AddStopPointRequest;
+import com.example.project.APIConnect.ResponseBody;
 import com.example.project.APIConnect.RetrofitClient;
+import com.example.project.APIConnect.StopPointObject;
 import com.example.project.Data.Province;
 import com.example.project.Data.ServiceType;
 import com.example.project.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class EditStopPoint extends AppCompatActivity {
@@ -49,6 +59,7 @@ public class EditStopPoint extends AppCompatActivity {
     private String dateArrival = "",dateLeave="",timeArrival="",timeLeave="";
     ArrayList<Province> provinceArrayList= new ArrayList<>();
     ArrayList<ServiceType> serviceTypeArrayList= new ArrayList<>();
+    String origin_DateArrive,origin_DateLeave, origin_TimeArrive,origin_TimeLeave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +67,6 @@ public class EditStopPoint extends AppCompatActivity {
         setContentView(R.layout.activity_edit_stop_point);
         getCompenent();
         Token = getIntent().getStringExtra("token");
-
 
         final ArrayList<String> arrayServiceType = getDataService();
         final ArrayList<String> arrayCity= getDataProvince();
@@ -105,7 +115,7 @@ public class EditStopPoint extends AppCompatActivity {
                 TimePickerDialog timePickerDialog= new TimePickerDialog(EditStopPoint.this, new TimePickerDialog.OnTimeSetListener(){
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        setArrTime.setText(hourOfDay+" : " +minute);
+                        setArrTime.setText(hourOfDay+":" +minute);
                         timeArrival = String.valueOf(hourOfDay);
                         if(minute<10)timeArrival+="0"+ String.valueOf(minute);
                         else timeArrival+=String.valueOf(minute);
@@ -125,7 +135,7 @@ public class EditStopPoint extends AppCompatActivity {
                 TimePickerDialog timePickerDialog= new TimePickerDialog(EditStopPoint.this, new TimePickerDialog.OnTimeSetListener(){
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        setLeaTime.setText(hourOfDay+" : " +minute);
+                        setLeaTime.setText(hourOfDay+":" +minute);
                         timeLeave = String.valueOf(hourOfDay);
                         if(minute<10)timeLeave+="0"+ String.valueOf(minute);
                         else timeLeave+=String.valueOf(minute);
@@ -204,8 +214,91 @@ public class EditStopPoint extends AppCompatActivity {
         addSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String arrivalSP ="",leaveSP="";
+                String[] token  = setDateArr.getText().toString().trim().split("/");
+                String[] token5  = setDateLea.getText().toString().trim().split("/");
+
+                for(int i=0;i<token.length;i++)
+                {
+                    if(Integer.parseInt(token[i]) < 10)
+                    {
+                        token[i] = "0"+token[i];
+                    }
+                }
+
+                for(int i=0;i<token5.length;i++)
+                {
+                    if(Integer.parseInt(token5[i]) < 10)
+                    {
+                        token5[i] = "0"+token5[i];
+                    }
+                }
+
+                String[] token2 = setArrTime.getText().toString().trim().split(":");
+                String[] token6 = setLeaTime.getText().toString().trim().split(":");
+
+                for(int i=0;i<token2.length;i++)
+                {
+                    if(Integer.parseInt(token2[i]) < 10)
+                    {
+                        token2[i] = "0"+token2[i];
+                    }
+                }
+
+                for(int i=0;i<token6.length;i++)
+                {
+                    if(Integer.parseInt(token6[i]) < 10)
+                    {
+                        token6[i] = "0"+token6[i];
+                    }
+                }
+
+                arrivalSP+= token[2]+token[1]+token[0]+token2[0]+token2[1]+"00";
+                leaveSP+= token5[2]+token5[1]+token5[0]+token6[0]+token6[1]+"00";
+
+                //Toast.makeText(EditStopPoint.this,arrivalSP+"///"+leaveSP, Toast.LENGTH_SHORT).show();
+
+
+                final ArrayList<StopPointObject> spObj = new ArrayList<>();
+                spObj.add(new StopPointObject(stopPointName.getText().toString().trim(),address.getText().toString().trim(),
+                       spinner2.getSelectedItemPosition(),Double.parseDouble(getIntent().getStringExtra("latSP")),
+                        Double.parseDouble(getIntent().getStringExtra("longSP")),
+                        Long.parseLong(arrivalSP), Long.parseLong(leaveSP),
+                        spinner.getSelectedItemPosition()+1, Float.parseFloat(minCost.getText().toString().trim()),
+                        Float.parseFloat(maxCost.getText().toString().trim()),null,
+                        getIntent().getStringExtra("idSP"),getIntent().getStringExtra("serviceId")));
+
+                //goi ham add stop point trong khi da co id sp de update
                 Retrofit retrofit = RetrofitClient.getClient();
                 APIService apiService = retrofit.create(APIService.class);
+                apiService.addStopPoint(Token,new AddStopPointRequest(getIntent().getStringExtra("tourIdSP"),spObj))
+                        .enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if(response.isSuccessful())
+                                {
+                                    Toast.makeText(EditStopPoint.this, "Update stop point successfully", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                                else
+                                {
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                        Toast.makeText(EditStopPoint.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toast.makeText(EditStopPoint.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }
@@ -221,7 +314,7 @@ public class EditStopPoint extends AppCompatActivity {
         minCost.setText(getIntent().getStringExtra("minCostSP"));
         maxCost.setText(getIntent().getStringExtra("maxCostSP"));
         String arrival = getIntent().getStringExtra("arrivalSP");
-        Log.e("ji",arrival+arrival.charAt(7));
+
         setDateArr.setText(String.valueOf(arrival.charAt(6))+String.valueOf(arrival.charAt(7))+"/"+
                 String.valueOf(arrival.charAt(4))+String.valueOf(arrival.charAt(5))+"/"+
                 String.valueOf( arrival.charAt(0))+ String.valueOf( arrival.charAt(1))+
@@ -238,6 +331,39 @@ public class EditStopPoint extends AppCompatActivity {
         setLeaTime.setText( String.valueOf( leave.charAt(8))+ String.valueOf( leave.charAt(9))+":"+
                 String.valueOf( leave.charAt(10))+ String.valueOf( leave.charAt(11)));
         int pos = Integer.parseInt(getIntent().getStringExtra("index"));
+
+        String[] token3 = setDateArr.getText().toString().trim().split("/");
+        String[] token4 = setDateLea.getText().toString().trim().split("/");
+        String[] token = setArrTime.getText().toString().trim().split(":");
+        String[] token1 = setLeaTime.getText().toString().trim().split(":");
+
+        for(int i=0;i<token3.length;i++)
+        {
+            if(token3[i].charAt(0) == '0') token3[i] = String.valueOf(token3[i].charAt(1));
+        }
+
+        for(int i=0;i<token4.length;i++)
+        {
+            if(token4[i].charAt(0) == '0') token4[i] = String.valueOf(token4[i].charAt(1));
+        }
+
+        for(int i=0;i<token.length;i++)
+        {
+            if(token[i].charAt(0) == '0') token[i] = String.valueOf(token[i].charAt(1));
+        }
+
+        for(int i=0;i<token1.length;i++)
+        {
+            if(token1[i].charAt(0) == '0') token1[i] = String.valueOf(token1[i].charAt(1));
+        }
+
+        setDateArr.setText(token3[0]+"/"+token3[1]+"/"+token3[2]);
+        setDateLea.setText(token4[0]+"/"+token4[1]+"/"+token4[2]);
+        setArrTime.setText(token[0]+":"+token[1]);
+        setLeaTime.setText(token1[0]+":"+token1[1]);
+
+        Log.e("arrival",setDateArr.getText().toString().trim());
+        Log.e("leave",setDateLea.getText().toString().trim());
     }
 
     private ArrayList<String> getDataService() {
@@ -342,7 +468,7 @@ public class EditStopPoint extends AppCompatActivity {
         setArrTime=(TextView)findViewById(R.id.tvTimeArriveEdit);
         setLeaTime=(TextView)findViewById(R.id.tvTimeLeaveEdit);
         close = (ImageButton)findViewById(R.id.inforStopPointCloseEdit);
-        addSP = (Button) findViewById(R.id.btnAddStopPointEdit);
+        addSP = (Button) findViewById(R.id.btnUpdateSP);
         minCost = (EditText) findViewById(R.id.etMinCostEdit);
         maxCost = (EditText) findViewById(R.id.etMaxCostEdit);
     }

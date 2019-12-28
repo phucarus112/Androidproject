@@ -5,21 +5,20 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class MessageResponse {
-
+public class RegisterResponse {
     @SerializedName("message")
     @Expose
-    private ArrayList<returnMessage> returnMessages;
+    private ArrayList<BodyMessage> list;
 
-    public ArrayList<returnMessage> getReturnMessages() {
-        return returnMessages;
+    public ArrayList<BodyMessage> getList() {
+        return list;
     }
 
-    public void setReturnMessages(ArrayList<returnMessage> returnMessages) {
-        this.returnMessages = returnMessages;
+    public void setList(ArrayList<BodyMessage> list) {
+        this.list = list;
     }
 
-    public class returnMessage{
+    public class BodyMessage{
         @SerializedName("location")
         @Expose
         private String location;
@@ -31,6 +30,10 @@ public class MessageResponse {
         @SerializedName("msg")
         @Expose
         private String msg;
+
+        @SerializedName("value")
+        @Expose
+        private String value;
 
         public String getLocation() {
             return location;
@@ -55,5 +58,14 @@ public class MessageResponse {
         public void setMsg(String msg) {
             this.msg = msg;
         }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
     }
+
 }

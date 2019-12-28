@@ -6,13 +6,14 @@
     android:background="@drawable/gradient_background">
     <Button
         android:id="@+id/btnAddStopPoints"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="500sp"
         android:layout_alignParentRight="true"
         android:background="@drawable/circlebutton"
-        android:text="Add"
+        android:text="Return to previous page"
+        android:textSize="10sp"
         android:textColor="#fff"/>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -41,7 +42,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
         </ListView>
+
     </LinearLayout>
+
     </ScrollView>
 
 

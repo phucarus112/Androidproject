@@ -44,7 +44,7 @@ public class TourHistory {
 
     @SerializedName("isPrivate")
     @Expose
-    private Boolean isPrivate;
+    private boolean isPrivate;
 
     @SerializedName("avatar")
     @Expose
@@ -52,11 +52,11 @@ public class TourHistory {
 
     @SerializedName("isHost")
     @Expose
-    private Boolean isHost;
+    private boolean isHost;
 
     @SerializedName("isKicked")
     @Expose
-    private Boolean isKicked;
+    private boolean isKicked;
 
     public int getId() {
         return id;
@@ -130,11 +130,11 @@ public class TourHistory {
         this.childs = childs;
     }
 
-    public Boolean getPrivate() {
+    public boolean getPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(Boolean aPrivate) {
+    public void setPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
 
@@ -146,19 +146,19 @@ public class TourHistory {
         this.avatar = avatar;
     }
 
-    public Boolean getHost() {
+    public boolean isHost() {
         return isHost;
     }
 
-    public void setHost(Boolean host) {
+    public void setHost(boolean host) {
         isHost = host;
     }
 
-    public Boolean getKicked() {
+    public boolean isKicked() {
         return isKicked;
     }
 
-    public void setKicked(Boolean kicked) {
+    public void setKicked(boolean kicked) {
         isKicked = kicked;
     }
 }

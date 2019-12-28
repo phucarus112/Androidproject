@@ -7,7 +7,7 @@ public class DetailServiceResponse {
 
     @SerializedName("id")
     @Expose
-    private long id;
+    private int id;
 
     @SerializedName("address")
     @Expose
@@ -45,11 +45,23 @@ public class DetailServiceResponse {
     @Expose
     private int serviceTypeId;
 
-    public long getId() {
+    @SerializedName("provinceId")
+    @Expose
+    private int provinceId;
+
+    public int getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(int provinceId) {
+        this.provinceId = provinceId;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

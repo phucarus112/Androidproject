@@ -40,7 +40,6 @@ public class AddStopPoint extends AppCompatActivity {
     ImageButton close;
     Button addSP;
     String Token;
-    private long dateTimeArrival,dateTimeLeave;
     private String dateArrival = "",dateLeave="",timeArrival="",timeLeave="";
     public static  final String SRCLAT= "SRCLAT";
     public static final String SRCLONG="SRCLONG";
@@ -230,7 +229,7 @@ public class AddStopPoint extends AppCompatActivity {
                 editor.putString("have","yes");
                 editor.commit();
 
-                Toast.makeText(AddStopPoint.this, "Stop Point is created", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddStopPoint.this, "Stop Point is created", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -331,7 +330,7 @@ public class AddStopPoint extends AppCompatActivity {
     private void getCompenent(){
         stopPointName = (EditText) findViewById(R.id.etStopPoint);
         address=(EditText)findViewById(R.id.etAddress);
-        //address.setText(getIntent().getStringExtra(StopPointActivity.ADDRESS));
+        address.setText(getIntent().getStringExtra(StopPointActivity.ADDRESS));
         spinner=(Spinner) findViewById(R.id.spinnerServiceType);
         spinner2=(Spinner) findViewById(R.id.spinnerCity);
         imDateArr=(ImageView)findViewById(R.id.IMcalendarArr);

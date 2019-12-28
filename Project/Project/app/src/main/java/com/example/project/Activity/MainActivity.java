@@ -31,6 +31,7 @@ import com.example.project.APIConnect.RetrofitClient;
 import com.example.project.APIConnect.Tour;
 import com.example.project.Adapter.MyAdapter;
 import com.example.project.R;
+import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -81,10 +82,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                         overridePendingTransition(0, 0);
                         break;
                     case R.id.navigation_History:
+                        final int userId=getIntent().getIntExtra("userId",0);
                         String Token = getIntent().getStringExtra("token");
                         overridePendingTransition(0, 0);
                         Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
                         intent.putExtra("token",Token);
+                        intent.putExtra("userId",userId);
                         startActivity(intent);
                         overridePendingTransition(0, 0);
                         finish();
@@ -117,12 +120,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         final int userId=i.getIntExtra("userId",0);
         Retrofit retrofit = RetrofitClient.getClient();
         APIService apiService = retrofit.create(APIService.class);
-        apiService.getResponseListTour(Token,515,1).enqueue(new Callback<ListToursResponse>() {
+        apiService.getResponseListTour(Token,1400,1).enqueue(new Callback<ListToursResponse>() {
             @Override
             public void onResponse(Call<ListToursResponse> call, Response<ListToursResponse> response) {
                 if(response.isSuccessful())
                 {
-                   final ArrayList<Tour> list= (ArrayList<Tour>) response.body().getTours();
+                    final ArrayList<Tour> list= (ArrayList<Tour>) response.body().getTours();
                     listView=(RecyclerView) findViewById(R.id.rvTours);
                     adapter=new MyAdapter(list);
                     listView.setAdapter(adapter);
@@ -279,6 +282,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("isLogined","no");
+                if(sharedPreferences.getString("isLoginedFB","").equals("yes"))
+                {
+                    LoginManager.getInstance().logOut();
+                    editor.putString("isLoginedFB","no");
+                }
                 editor.commit();
 
                 finish();

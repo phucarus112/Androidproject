@@ -80,4 +80,37 @@ public class RegisterRequest {
 
     @SerializedName("phoneVerified")
     private boolean phoneVerified;
+
+    @SerializedName("address")
+    private String address;
+
+    @SerializedName("dob")
+    private String dob;
+
+    @SerializedName("gender")
+    private int gender;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
 }

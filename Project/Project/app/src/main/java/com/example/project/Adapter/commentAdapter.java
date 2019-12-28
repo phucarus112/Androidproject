@@ -75,4 +75,3 @@ public class commentAdapter extends RecyclerView.Adapter<commentAdapter.ViewHold
     }
 
 }
-

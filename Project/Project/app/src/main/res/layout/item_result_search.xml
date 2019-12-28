@@ -7,34 +7,42 @@
     android:layout_marginTop="20sp">
     <RelativeLayout
         android:layout_marginTop="10sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
         android:background="@drawable/gradient_background_dialog"
         android:layout_width="match_parent"
-        android:layout_height="100sp">
+        android:layout_height="60sp">
+        <ImageView
+            android:id="@+id/imgAvatarRS"
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            android:layout_marginLeft="10sp"
+            android:background="@drawable/user"
+            android:layout_marginTop="15sp"/>
         <TextView
+            android:paddingRight="20sp"
+            android:layout_toRightOf="@+id/imgAvatarRS"
             android:layout_marginTop="10sp"
             android:textColor="#FFF"
             android:textStyle="bold"
             android:fontFamily="monospace"
-            android:textSize="20dp"
-            android:id="@+id/tvNameStopPoint"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/tvNameRS"
+            android:layout_marginLeft="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="hiifhff"/>
+            android:text="Name"/>
         <TextView
-            android:text="textview"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="30sp"
             android:textColor="#000"
             android:fontFamily="monospace"
-            android:textSize="18dp"
-            android:id="@+id/tvAddressStopPoint"
-            android:layout_marginLeft="20dp"
+            android:paddingRight="20sp"
+            android:id="@+id/tvEmailRS"
+            android:layout_marginLeft="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:textStyle="italic"
-            android:layout_below="@+id/tvNameStopPoint"/>
+            android:textStyle="italic|bold"
+            android:text="Email"
+            android:layout_toRightOf="@+id/imgAvatarRS" />
     </RelativeLayout>
 
 

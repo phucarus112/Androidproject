@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.MatrixCursor;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
@@ -27,23 +28,29 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.APIConnect.APIService;
 import com.example.project.APIConnect.InfoTourResponse;
 import com.example.project.APIConnect.ResponseBody;
 import com.example.project.APIConnect.RetrofitClient;
+import com.example.project.APIConnect.SearchUserResponse;
 import com.example.project.APIConnect.StopPointObject;
 import com.example.project.APIConnect.StopPointObjectEdit;
 import com.example.project.APIConnect.TourHistory;
 import com.example.project.APIConnect.UpdateTourResponse;
 import com.example.project.Activity.AddStopPoint;
+import com.example.project.Activity.Detail_Review;
 import com.example.project.Activity.EditStopPoint;
+import com.example.project.Activity.FollowTourActivity;
 import com.example.project.Activity.HistoryActivity;
+import com.example.project.Activity.MainActivity;
 import com.example.project.Activity.StopPointActivity;
 import com.example.project.R;
 
@@ -51,6 +58,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -118,9 +126,13 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
     String token;
     String tempName;
     int tempAdults,tempChilds,tempMinCost,tempMaxCost;
+    String srcDateEdit="",desDateEdit="";
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+
+        final int idTourClickedPosition = mListTour.get(position).getId();
+        final boolean kq = mListTour.get(position).getPrivate();
 
         TourHistory X = mListTour.get(position);
             final int status  = X.getStatus();
@@ -132,10 +144,18 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
             TextView nguoi2 = viewHolder.nguoi2;
             nguoi2.setText(String.valueOf(X.getChilds()));
             TextView lich = viewHolder.lich;
-            Log.e("date",X.getStartDate());
-            Log.e("date2",X.getEndDate());
-            lich.setText(convert(Long.parseLong(X.getStartDate())) +
-                    " - " + convert(Long.parseLong(X.getEndDate())));
+
+        long src =Long.parseLong(X.getStartDate());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date(src);
+
+        long des =Long.parseLong(X.getEndDate());
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+        Date date1 = new Date(des);
+
+
+        lich.setText(sdf.format(date)+"-"+ sdf1.format(date1));
+
             TextView name = viewHolder.name;
             name.setText(X.getName());
             ImageView anh = viewHolder.image;
@@ -150,7 +170,11 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                 @Override
                 public void onClick(View v) {
 
-                        Toast.makeText(context, "tour ok", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, Detail_Review.class);
+                    intent.putExtra("token", token);
+                    intent.putExtra("tourId",mListTour.get(position).getId());
+                    intent.putExtra("userId",((Activity)context).getIntent().getStringArrayExtra("userId"));
+                    ((Activity) context).startActivity(intent);
                 }
             });
 
@@ -179,22 +203,25 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                 dialog.show();
 
                 etFullNameEdit.setText(mListTour.get(position).getName());
-                etStartDayEdit.setText(convert(Long.parseLong(mListTour.get(position).getStartDate())));
-                etEndDayEdit.setText(convert(Long.parseLong(mListTour.get(position).getEndDate())));
                 etAdultEdit.setText(String.valueOf(mListTour.get(position).getAdults()));
                 etChildrenEdit.setText(String.valueOf(mListTour.get(position).getChilds()));
                 etMincostEdit.setText(mListTour.get(position).getMinCost());
                 etMaxCostEdit.setText(mListTour.get(position).getMaxCost());
 
-               /* close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });*/
-
                 milisecondStart = Long.parseLong(mListTour.get(position).getStartDate());
                 milisecondEnd = Long.parseLong(mListTour.get(position).getEndDate());
+
+                long src =Long.parseLong(mListTour.get(position).getStartDate());
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = new Date(src);
+
+                long des =Long.parseLong(mListTour.get(position).getEndDate());
+                SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                Date date1 = new Date(des);
+                sdf1.format(date1);
+
+                etStartDayEdit.setText(sdf.format(date));
+                etEndDayEdit.setText(sdf1.format(date1));
 
                 IMcalendar.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -207,7 +234,6 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                         DatePickerDialog dialog = new DatePickerDialog(
                                 context, android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListenr, year, month, day);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        Log.e("sau khi", String.valueOf(milisecondStart));
                         dialog.show();
                     }
                 });
@@ -233,6 +259,11 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                         month = month + 1;
                         String date = dayOfMonth + "/" + month + "/" + year;
                         etStartDayEdit.setText(date);
+                        srcDateEdit+=year;
+                        if(month<10) srcDateEdit+="0"+String.valueOf(month);
+                        else srcDateEdit+=month;
+                        if(dayOfMonth<10)srcDateEdit+="0"+dayOfMonth;
+                        else srcDateEdit+=dayOfMonth;
                     }
                 };
 
@@ -242,6 +273,11 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                         month = month + 1;
                         String date = dayOfMonth + "/" + month + "/" + year;
                         etEndDayEdit.setText(date);
+                        desDateEdit+=year;
+                        if(month<10) desDateEdit+="0"+String.valueOf(month);
+                        else desDateEdit+=month;
+                        if(dayOfMonth<10)desDateEdit+="0"+dayOfMonth;
+                        else desDateEdit+=dayOfMonth;
                     }
                 };
 
@@ -259,6 +295,7 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                                             final Dialog dialog1 = new Dialog(context);
                                             dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                             dialog1.setContentView(R.layout.stop_point_list_edit);
+                                            final int sohieuTour = response.body().getId();
                                             final ArrayList<StopPointObjectEdit> spObj = (ArrayList<StopPointObjectEdit>)response.body().getStopPoints();
 
                                             ListView listView1 = (ListView) dialog1.findViewById(R.id.lvStopPointListEdit);
@@ -271,8 +308,11 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                                                     Intent intent= new Intent(context, EditStopPoint.class);
                                                     intent.putExtra("token",token);
 
-                                                    Log.e("serviceId/tourId/SPid", String.valueOf(spObj.get(position).getServiceId()));
+                                                    Log.e("so hireu  tour", String.valueOf(sohieuTour));
 
+                                                    intent.putExtra("tourIdSP",String.valueOf(sohieuTour));
+                                                    intent.putExtra("latSP",String.valueOf(spObj.get(position).getLat()));
+                                                    intent.putExtra("longSP",String.valueOf(spObj.get(position).getLongtitude()));
                                                     intent.putExtra("idSP",String.valueOf(spObj.get(position).getId()));
                                                     intent.putExtra("nameSP",spObj.get(position).getName());
                                                     intent.putExtra("addressSP",spObj.get(position).getAddress());
@@ -285,6 +325,8 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                                                     intent.putExtra("leaveSP",String.valueOf(spObj.get(position).getLeaveAt()));
                                                     intent.putExtra("index",String.valueOf(position));
                                                     ((Activity) context).startActivity(intent);
+                                                    dialog1.cancel();
+
                                                 }
                                             });
 
@@ -305,10 +347,7 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                                                                                     if(response.isSuccessful())
                                                                                     {
                                                                                         dialog1.cancel();
-                                                                                        dialog.cancel();
-                                                                                        ((Activity) context).finish();
-                                                                                        ((Activity) context).startActivity(((Activity) context).getIntent());
-                                                                                        Toast.makeText(context, "Successfully", Toast.LENGTH_SHORT).show();
+                                                                                        Toast.makeText(context, "Delete stop point successfully", Toast.LENGTH_SHORT).show();
                                                                                     }
                                                                                     else
                                                                                     {
@@ -364,7 +403,6 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                 btnUpdateTour.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         tempName = etFullNameEdit.getText().toString();
                         tempAdults = Integer.parseInt(etAdultEdit.getText().toString());
                         tempChilds = Integer.parseInt(etChildrenEdit.getText().toString());
@@ -376,9 +414,8 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                         if (etFullNameEdit.getText().toString().equals("")) {
                             Toast.makeText(context, "Invalid Name", Toast.LENGTH_SHORT).show();
                         } else {
-
                             apiService.updateTour(token, mListTour.get(position).getId(),
-                                    etFullNameEdit.getText().toString(), milisecondStart, milisecondEnd,
+                                    etFullNameEdit.getText().toString(), milisecondStart,milisecondEnd,
                                     Integer.parseInt(etAdultEdit.getText().toString()),
                                     Integer.parseInt(etChildrenEdit.getText().toString()),
                                     Integer.parseInt(etMincostEdit.getText().toString()),
@@ -465,13 +502,120 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                         }).create().show();
             }
         });
-    }
 
-    public String convert(long str) {
-        Date date = new Date();
-        date.setTime(str);
-        String formattedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
-        return formattedDate;
+        ImageView btnInvite = viewHolder.btnInvite;
+        btnInvite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog mydialog = new Dialog(context,android.R.style.Theme_Light_NoTitleBar_Fullscreen);
+                mydialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                mydialog.setContentView(R.layout.dialog_invite_member);
+                final SearchView searchView = (SearchView) mydialog.findViewById(R.id.etInputEmailMember);
+                final ListView  listResults = (ListView) mydialog.findViewById(R.id.lvRS);
+                mydialog.show();
+
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        String query = searchView.getQuery().toString();
+                        Retrofit retrofit = RetrofitClient.getClient();
+                        final APIService apiService = retrofit.create(APIService.class);
+                        apiService.getListUsersSearch(query,1,1000)
+                                .enqueue(new Callback<SearchUserResponse>() {
+                                    @Override
+                                    public void onResponse(Call<SearchUserResponse> call, Response<SearchUserResponse> response) {
+                                        if(response.isSuccessful()) {
+
+                                            final ArrayList<SearchUserResponse.SearchUserObject> list = response.body().getUserObjects();
+                                            Adapter_SearchView adapter_searchView = new Adapter_SearchView(((Activity) context), list);
+                                            listResults.setAdapter(adapter_searchView);
+                                            listResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                @Override
+                                                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                                    builder.setMessage("Do you want to invite"+list.get(position).getFullName()+" to join in tour?")
+                                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    //moi ban be
+                                                                    Retrofit retrofit2 = RetrofitClient.getClient();
+                                                                    APIService apiService2 = retrofit2.create(APIService.class);
+                                                                    Log.e("clicked",String.valueOf(idTourClickedPosition));
+                                                                    Log.e("id",String.valueOf(list.get(position).getId()));
+                                                                    apiService2.inviteMember(token, String.valueOf(idTourClickedPosition), String.valueOf(list.get(position).getId()),kq)
+                                                                            .enqueue(new Callback<ResponseBody>() {
+                                                                                @Override
+                                                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                                    if(response.isSuccessful())
+                                                                                    {
+                                                                                        Toast.makeText(context, "Add member successfully", Toast.LENGTH_SHORT).show();
+                                                                                        mydialog.cancel();
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        try {
+                                                                                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                                                                            Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                                                                        } catch (JSONException e) {
+                                                                                            e.printStackTrace();
+                                                                                        } catch (IOException e) {
+                                                                                            e.printStackTrace();
+                                                                                        }
+                                                                                    }
+                                                                                }
+
+                                                                                @Override
+                                                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                                                    Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+                                                                                }
+                                                                            });
+                                                                }
+                                                            })
+                                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                }
+                                                            }).create().show();
+                                                }
+                                            });
+                                        }
+                                        else
+                                        {
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                                Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<SearchUserResponse> call, Throwable t) {
+                                        Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        return false;
+                    }
+                });
+            }
+        });
+
+        ImageView imgFollow = viewHolder.btnFollow;
+        imgFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, FollowTourActivity.class);
+                ((Activity) context).startActivity(intent);
+            }
+        });
     }
 
     @Override

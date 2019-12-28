@@ -50,6 +50,7 @@ public class CreateTourActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences,tourSharePreferences;
     SharedPreferences.Editor editor,tourEditor;
     public static  final String SRC= "SRC";
+    public String srcDate="",desDate= "";
 
     private int num;
     private  String token;
@@ -110,6 +111,7 @@ public class CreateTourActivity extends AppCompatActivity {
                 Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month + "/" + dayOfMonth + "/" + year);
                 String date = dayOfMonth + "/" + month + "/" + year;
                 SetDate1.setText(date);
+
             }
         };
         mDateSetListenr2 = new DatePickerDialog.OnDateSetListener() {
@@ -119,12 +121,12 @@ public class CreateTourActivity extends AppCompatActivity {
                 Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month + "/" + dayOfMonth + "/" + year);
                 String date = dayOfMonth + "/" + month + "/" + year;
                 SetDate2.setText(date);
+                desDate+=year;
             }
         };
         GgMapSrc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent= new Intent(CreateTourActivity.this, StopPointActivity.class);
                 num=1;
                 intent.putExtra(SRC,num);
@@ -187,7 +189,7 @@ public class CreateTourActivity extends AppCompatActivity {
                         Children.getText().toString().trim().isEmpty() == false && MinCost.getText().toString().trim().isEmpty() == false &&
                         MaxCost.getText().toString().trim().isEmpty() == false ) {
                     apiService.createTour(token, Name.getText().toString().trim()
-                            , milisecondStart, milisecondEnd
+                            ,milisecondStart,milisecondEnd
                             , Float.parseFloat(sharedPreferences.getString("numsrclat", "")),
                             Float.parseFloat(sharedPreferences.getString("numsrclong", "")),
                             Float.parseFloat(sharedPreferences.getString("numdeslat", "")),

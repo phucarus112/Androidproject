@@ -169,7 +169,7 @@ public class Detail extends Fragment {
                                                                  btStopPoint.setOnClickListener(new OnClickListener() {
                                                                      @Override
                                                                      public void onClick(View v) {
-                                                                         stopPointAdapter cmadapter = new stopPointAdapter(list3);
+                                                                         stopPointAdapter cmadapter = new stopPointAdapter(list3,getContext());
                                                                          listMember.setAdapter(cmadapter);
                                                                          listMember.setLayoutManager(new LinearLayoutManager(getActivity()));
                                                                      }
@@ -182,8 +182,6 @@ public class Detail extends Fragment {
                                                                          listMember.setLayoutManager(new LinearLayoutManager(getActivity()));
                                                                      }
                                                                  });
-
-
 
                                                                  final EditText edtext=((EditText)view.findViewById(R.id.edComment));
                                                                  TextView OurName=((TextView)view.findViewById(R.id.tvNamecmour));
@@ -303,4 +301,3 @@ public class Detail extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 }
-
