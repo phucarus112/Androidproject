@@ -323,7 +323,7 @@ public class ExploreActivity extends AppCompatActivity implements OnMapReadyCall
                                                                         *response.body().getPointStats().get(z).getPoint();
                                                         }
                                                         count.setText(String.valueOf(countTurn));
-                                                        pointAvg.setText(String.valueOf(avg/countTurn)+"/5");
+                                                        if(countTurn!=0)pointAvg.setText(String.valueOf(avg/countTurn)+"/5");
                                                         ratingBar1.setRating(avg/countTurn);
                                                         if(countTurn > 0)
                                                         {

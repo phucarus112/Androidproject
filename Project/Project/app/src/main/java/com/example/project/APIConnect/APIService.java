@@ -133,4 +133,20 @@ public interface APIService {
     @FormUrlEncoded
     Call<ResponseBody> updatePassword(@Header("Authorization") String token,@Field("userId") int userId,@Field("currentPassword") String currentPassword,
                                       @Field("newPassword") String newPassword);
+
+    @POST("/tour/current-users-coordinate")
+    @FormUrlEncoded
+    Call<ArrayList<PosMemberResponse>> getPosMember(@Header("Authorization") String token,@Field("userId") int userId,@Field("tourId") int tourId,
+                                     @Field("lat") double lat, @Field("long") double longtitude);
+
+    @POST("/tour/add/notification-on-road")
+    @FormUrlEncoded
+    Call<ResponseBody> sendSpeedNoti(@Header("Authorization") String token, @Field("lat") double lat, @Field("long") double longtitude
+                                     ,@Field("tourId") int tourId,@Field("userId") int userId,@Field("notificationType") int notificationType,
+                                                   @Field("speed") int speed, @Field("note") String note);
+
+    @POST("/tour/notification")
+    @FormUrlEncoded
+    Call<ResponseBody> sendTextNoti(@Header("Authorization") String token,@Field("tourId") int tourId, @Field("userId") int userId,
+                                                    @Field("noti") String noti);
 }

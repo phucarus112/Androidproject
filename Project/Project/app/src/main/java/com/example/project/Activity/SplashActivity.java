@@ -68,6 +68,7 @@ public class SplashActivity extends AppCompatActivity {
                                 Log.e("token khi log in", response.body().getToken());
                                 SharedPreferences sharedPreferences2 = getSharedPreferences("tokenUser", MODE_PRIVATE);
                                 SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                                editor2.putString("userId",String.valueOf(response.body().getUserId()));
                                 editor2.putString("token", response.body().getToken());
                                 editor2.commit();
                                 startActivity(change);

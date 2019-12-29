@@ -17,9 +17,4 @@
     <string name="title_activity_detail__review">Detail_Review</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
-
-    <!--Location tracking activity permission toasts-->
-    <string name="user_location_permission_explanation">This app needs location permissions in order to show its functionality.</string>
-    <string name="user_location_permission_not_granted">You didn\'t grant location permissions.</string>
-    <string name="access_token">pk.eyJ1IjoicGh1Y2FydXMxMTIiLCJhIjoiY2s0bWc3djZzMjFpcTNqcXhqajhwaHVpaCJ9.1jlzqoEuaKyhQ08NvmtmuQ</string>
 </resources>

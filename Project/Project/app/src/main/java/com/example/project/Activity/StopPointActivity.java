@@ -696,7 +696,7 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
                                                                                                 * response.body().getPointStats().get(z).getPoint();
                                                                                     }
                                                                                     count.setText(String.valueOf(countTurn));
-                                                                                    pointAvg.setText(String.valueOf(avg / countTurn) + "/5");
+                                                                                    if(countTurn!=0) pointAvg.setText(String.valueOf(avg / countTurn) + "/5");
                                                                                     ratingBar1.setRating(avg / countTurn);
                                                                                     if (countTurn > 0) {
                                                                                         p1.setProgress(100 * response.body().getPointStats().get(0).getTotal() / countTurn);
@@ -859,139 +859,146 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
 
+
+
         btnStopPointList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //lay ds cac diem dung
-                Retrofit re = RetrofitClient.getClient();
-                final APIService api = re.create(APIService.class);
-                api.getInfoTour(token, Integer.parseInt(tourId))
-                        .enqueue(new Callback<InfoTourResponse>() {
-                            @Override
-                            public void onResponse(Call<InfoTourResponse> call, Response<InfoTourResponse> response) {
-                                if (response.isSuccessful()) {
-                                    final Dialog dialog1 = new Dialog(StopPointActivity.this);
-                                    dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                    dialog1.setContentView(R.layout.stop_point_list_edit);
-                                    final ArrayList<StopPointObjectEdit> spObj = (ArrayList<StopPointObjectEdit>) response.body().getStopPoints();
-                                    ListView listView1 = (ListView) dialog1.findViewById(R.id.lvStopPointListEdit);
-                                    MyAdapter_StopPointListEdit myAdapter_stopPointList = new
-                                            MyAdapter_StopPointListEdit(StopPointActivity.this, spObj);
-                                    listView1.setAdapter(myAdapter_stopPointList);
-                                    final TextView exit = (TextView) dialog1.findViewById(R.id.tvExitPrevious);
+                SharedPreferences sharedPreferences4 = getSharedPreferences("saveSP", MODE_PRIVATE);
+                if (sharedPreferences4.getString("tim sau khi tao", "").equals("yes"))
+                {
+                    //lay ds cac diem dung
+                    Retrofit re = RetrofitClient.getClient();
+                    final APIService api = re.create(APIService.class);
+                    api.getInfoTour(token, Integer.parseInt(tourId))
+                            .enqueue(new Callback<InfoTourResponse>() {
+                                @Override
+                                public void onResponse(Call<InfoTourResponse> call, Response<InfoTourResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        final Dialog dialog1 = new Dialog(StopPointActivity.this);
+                                        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                        dialog1.setContentView(R.layout.stop_point_list_edit);
+                                        final ArrayList<StopPointObjectEdit> spObj = (ArrayList<StopPointObjectEdit>) response.body().getStopPoints();
+                                        ListView listView1 = (ListView) dialog1.findViewById(R.id.lvStopPointListEdit);
+                                        MyAdapter_StopPointListEdit myAdapter_stopPointList = new
+                                                MyAdapter_StopPointListEdit(StopPointActivity.this, spObj);
+                                        listView1.setAdapter(myAdapter_stopPointList);
+                                        final Button exit = (Button) dialog1.findViewById(R.id.tvExitPrevious);
+                                        exit.setFocusable(true);
+                                        exit.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                final AlertDialog.Builder builder = new AlertDialog.Builder(StopPointActivity.this);
+                                                builder.setMessage("Do you want to return previous screen?")
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                            public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                                                                exit.setText("");
+                                                                finish();
+                                                            }
+                                                        })
+                                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                            public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                                                            }
+                                                        });
+                                                final AlertDialog alert = builder.create();
+                                                alert.show();
+                                            }
+                                        });
 
-                                    exit.setText("EXIT");
-                                    exit.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            final AlertDialog.Builder builder = new AlertDialog.Builder(StopPointActivity.this);
-                                            builder.setMessage("Do you want to return previous screen?")
-                                                    .setCancelable(false)
-                                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                                                            exit.setText("");
-                                                           finish();
-                                                        }
-                                                    })
-                                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                                                        }
-                                                    });
-                                            final AlertDialog alert = builder.create();
-                                            alert.show();
-                                        }
-                                    });
+                                        //set su kien khi nhan vao
+                                        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                Intent intent = new Intent(StopPointActivity.this, EditStopPoint.class);
+                                                intent.putExtra("token", token);
 
-                                    //set su kien khi nhan vao
-                                    listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                            Intent intent = new Intent(StopPointActivity.this, EditStopPoint.class);
-                                            intent.putExtra("token", token);
+                                                intent.putExtra("tourIdSP", String.valueOf(tourId));
+                                                intent.putExtra("latSP", String.valueOf(spObj.get(position).getLat()));
+                                                intent.putExtra("longSP", String.valueOf(spObj.get(position).getLongtitude()));
+                                                intent.putExtra("idSP", String.valueOf(spObj.get(position).getId()));
+                                                intent.putExtra("nameSP", spObj.get(position).getName());
+                                                intent.putExtra("addressSP", spObj.get(position).getAddress());
+                                                intent.putExtra("serviceId", String.valueOf(spObj.get(position).getServiceId()));
+                                                intent.putExtra("serviceSP", String.valueOf(spObj.get(position).getServiceTypeId()));
+                                                intent.putExtra("provinceSP", String.valueOf(spObj.get(position).getProvinceId()));
+                                                intent.putExtra("minCostSP", String.valueOf(spObj.get(position).getMinCost()));
+                                                intent.putExtra("maxCostSP", String.valueOf(spObj.get(position).getMaxCost()));
+                                                intent.putExtra("arrivalSP", String.valueOf(spObj.get(position).getArrivalAt()));
+                                                intent.putExtra("leaveSP", String.valueOf(spObj.get(position).getLeaveAt()));
+                                                intent.putExtra("index", String.valueOf(position));
+                                                startActivity(intent);
+                                                dialog1.cancel();
+                                            }
+                                        });
 
-                                            intent.putExtra("tourIdSP", String.valueOf(tourId));
-                                            intent.putExtra("latSP", String.valueOf(spObj.get(position).getLat()));
-                                            intent.putExtra("longSP", String.valueOf(spObj.get(position).getLongtitude()));
-                                            intent.putExtra("idSP", String.valueOf(spObj.get(position).getId()));
-                                            intent.putExtra("nameSP", spObj.get(position).getName());
-                                            intent.putExtra("addressSP", spObj.get(position).getAddress());
-                                            intent.putExtra("serviceId", String.valueOf(spObj.get(position).getServiceId()));
-                                            intent.putExtra("serviceSP", String.valueOf(spObj.get(position).getServiceTypeId()));
-                                            intent.putExtra("provinceSP", String.valueOf(spObj.get(position).getProvinceId()));
-                                            intent.putExtra("minCostSP", String.valueOf(spObj.get(position).getMinCost()));
-                                            intent.putExtra("maxCostSP", String.valueOf(spObj.get(position).getMaxCost()));
-                                            intent.putExtra("arrivalSP", String.valueOf(spObj.get(position).getArrivalAt()));
-                                            intent.putExtra("leaveSP", String.valueOf(spObj.get(position).getLeaveAt()));
-                                            intent.putExtra("index", String.valueOf(position));
-                                            startActivity(intent);
-                                            dialog1.cancel();
-                                        }
-                                    });
-
-                                    //set su kien khi long click
-                                    listView1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                                        @Override
-                                        public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                                            final AlertDialog.Builder builder = new AlertDialog.Builder(StopPointActivity.this);
-                                            builder.setMessage("Are you sure to remove stop point?")
-                                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(final DialogInterface dialog, int which) {
-                                                            Retrofit retrofit2 = RetrofitClient.getClient();
-                                                            final APIService apiService2 = retrofit2.create(APIService.class);
-                                                            apiService2.removeStopPoint(token, String.valueOf(spObj.get(position).getId()))
-                                                                    .enqueue(new Callback<ResponseBody>() {
-                                                                        @Override
-                                                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                                            if (response.isSuccessful()) {
-                                                                                dialog1.cancel();
-                                                                                Toast.makeText(StopPointActivity.this, "Delete stop point successfully", Toast.LENGTH_SHORT).show();
-                                                                            } else {
-                                                                                try {
-                                                                                    JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                                                                                    Toast.makeText(StopPointActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                                                                } catch (JSONException e) {
-                                                                                    e.printStackTrace();
-                                                                                } catch (IOException e) {
-                                                                                    e.printStackTrace();
+                                        //set su kien khi long click
+                                        listView1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                                            @Override
+                                            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                                                final AlertDialog.Builder builder = new AlertDialog.Builder(StopPointActivity.this);
+                                                builder.setMessage("Are you sure to remove stop point?")
+                                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(final DialogInterface dialog, int which) {
+                                                                Retrofit retrofit2 = RetrofitClient.getClient();
+                                                                final APIService apiService2 = retrofit2.create(APIService.class);
+                                                                apiService2.removeStopPoint(token, String.valueOf(spObj.get(position).getId()))
+                                                                        .enqueue(new Callback<ResponseBody>() {
+                                                                            @Override
+                                                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                                if (response.isSuccessful()) {
+                                                                                    dialog1.cancel();
+                                                                                    Toast.makeText(StopPointActivity.this, "Delete stop point successfully", Toast.LENGTH_SHORT).show();
+                                                                                } else {
+                                                                                    try {
+                                                                                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                                                                        Toast.makeText(StopPointActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                                                                    } catch (JSONException e) {
+                                                                                        e.printStackTrace();
+                                                                                    } catch (IOException e) {
+                                                                                        e.printStackTrace();
+                                                                                    }
                                                                                 }
                                                                             }
-                                                                        }
 
-                                                                        @Override
-                                                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                                            Toast.makeText(StopPointActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-                                                        }
-                                                    })
-                                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            @Override
+                                                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                                                Toast.makeText(StopPointActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        });
+                                                            }
+                                                        })
+                                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
 
-                                                        }
-                                                    }).create().show();
-                                            return false;
+                                                            }
+                                                        }).create().show();
+                                                return false;
+                                            }
+                                        });
+                                        dialog1.show();
+                                    } else {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                            Toast.makeText(StopPointActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
                                         }
-                                    });
-                                    dialog1.show();
-                                } else {
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                                        Toast.makeText(StopPointActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
                                     }
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(Call<InfoTourResponse> call, Throwable t) {
-                                Toast.makeText(StopPointActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                @Override
+                                public void onFailure(Call<InfoTourResponse> call, Throwable t) {
+                                    Toast.makeText(StopPointActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+                else Toast.makeText(StopPointActivity.this, "Cannot open", Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -1017,9 +1024,9 @@ public class StopPointActivity extends FragmentActivity implements OnMapReadyCal
                             Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             userLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                             map.clear();
-                            map.addMarker(new MarkerOptions().position(userLocation).title("I'm here"));
+                            map.addMarker(new MarkerOptions().position(userLocation).title("You are here"));
                             map.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
-                            map.animateCamera(CameraUpdateFactory.zoomTo(19.0F));
+                            map.animateCamera(CameraUpdateFactory.zoomTo(17.0F));
                         }
                     }
 

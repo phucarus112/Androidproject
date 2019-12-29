@@ -59,6 +59,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -144,6 +145,8 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
             TextView nguoi2 = viewHolder.nguoi2;
             nguoi2.setText(String.valueOf(X.getChilds()));
             TextView lich = viewHolder.lich;
+            Log.e("diem di",X.getStartDate());
+            Log.e("diem den",X.getEndDate());
 
         long src =Long.parseLong(X.getStartDate());
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -264,6 +267,14 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                         else srcDateEdit+=month;
                         if(dayOfMonth<10)srcDateEdit+="0"+dayOfMonth;
                         else srcDateEdit+=dayOfMonth;
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                        try {
+                            Date dat = sdf.parse(srcDateEdit);
+                            milisecondStart = dat.getTime();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                 };
 
@@ -278,6 +289,14 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
                         else desDateEdit+=month;
                         if(dayOfMonth<10)desDateEdit+="0"+dayOfMonth;
                         else desDateEdit+=dayOfMonth;
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                        try {
+                            Date dat = sdf.parse(desDateEdit);
+                            milisecondEnd = dat.getTime();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                 };
 
@@ -613,6 +632,8 @@ public class MyAdapterHistory extends RecyclerView.Adapter<MyAdapterHistory.View
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, FollowTourActivity.class);
+                intent.putExtra("token",token);
+                intent.putExtra("tourId",String.valueOf(mListTour.get(position).getId()));
                 ((Activity) context).startActivity(intent);
             }
         });

@@ -68,7 +68,7 @@ public class ActivitySetting extends AppCompatActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_setting);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_Explore);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_Setting);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

@@ -1,8 +1,11 @@
 package com.example.project.Activity;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +38,11 @@ public class UpdatePassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_password);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.action_bar);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
         cur = (EditText) findViewById(R.id.curpass);
         newPass = (EditText) findViewById(R.id.newPass);
         confirm = (EditText) findViewById(R.id.confirmnewpass);

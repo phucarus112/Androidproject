@@ -1,38 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="10"
-    tools:context=".Activity.FollowTourActivity">
-    <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9"
-        mapbox:mapbox_cameraTargetLat="10.762622"
-        mapbox:mapbox_cameraTargetLng="106.660172"
-        mapbox:mapbox_cameraZoom="13"
-        mapbox:mapbox_cameraBearing="34.33"
-        mapbox:mapbox_cameraTilt="50.25"
-        mapbox:mapbox_cameraZoomMax="18"
-        mapbox:mapbox_cameraZoomMin="1"
-        mapbox:mapbox_uiRotateGestures="false"/>
+    tools:context=".Activity.StopPointActivity"
+    android:id="@+id/stop_point">
     <Button
-        android:id="@+id/startButton"
-        android:layout_width="fill_parent"
+        android:text="Notification"
+        android:background="#00ff00"
+        android:id="@+id/btnSendNoti"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="#c9c9c9"
-        android:enabled="false"
-        android:text="Start"
-        android:textColor="#ff8285"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent" />
-</LinearLayout>
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="80sp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="#000" />
+    <fragment
+        android:id="@+id/mapFollow"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </fragment>
+</RelativeLayout>

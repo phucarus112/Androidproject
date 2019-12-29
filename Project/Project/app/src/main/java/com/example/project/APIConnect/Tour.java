@@ -103,7 +103,7 @@ public class Tour {
 
             try{
                 long t=Long.parseLong(startDate);
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss - E, dd MM yyyy ");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");
                 Date date = new Date(t);
                 return sdf.format(date).toString();}
             catch (Exception e){}
@@ -117,7 +117,7 @@ public class Tour {
     public String getEndDate() {
         try{
             long t=Long.parseLong(endDate);
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss - E, dd MM yyyy ");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");
             Date date = new Date(t);
             return sdf.format(date).toString();}
         catch (Exception e){}

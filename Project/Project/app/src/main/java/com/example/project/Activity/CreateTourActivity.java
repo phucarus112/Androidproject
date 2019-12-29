@@ -28,7 +28,10 @@ import com.example.project.APIConnect.RetrofitClient;
 import com.example.project.R;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -111,6 +114,20 @@ public class CreateTourActivity extends AppCompatActivity {
                 Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month + "/" + dayOfMonth + "/" + year);
                 String date = dayOfMonth + "/" + month + "/" + year;
                 SetDate1.setText(date);
+                String myDate = "";
+                myDate+=year;
+                if(month<10)myDate+="/0"+month+"/";
+                else myDate+=month+"/";
+                if(dayOfMonth<10)myDate+="/0"+dayOfMonth;
+                else myDate+=dayOfMonth;
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                try {
+                    Date dat = sdf.parse(myDate);
+                    milisecondStart = dat.getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
             }
         };
@@ -121,7 +138,20 @@ public class CreateTourActivity extends AppCompatActivity {
                 Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month + "/" + dayOfMonth + "/" + year);
                 String date = dayOfMonth + "/" + month + "/" + year;
                 SetDate2.setText(date);
-                desDate+=year;
+                String myDate = "";
+                myDate+=year;
+                if(month<10)myDate+="/0"+month+"/";
+                else myDate+=month+"/";
+                if(dayOfMonth<10)myDate+="/0"+dayOfMonth;
+                else myDate+=dayOfMonth;
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                try {
+                    Date dat = sdf.parse(myDate);
+                    milisecondEnd = dat.getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         };
         GgMapSrc.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +209,8 @@ public class CreateTourActivity extends AppCompatActivity {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("src", String.valueOf(milisecondStart));
+                Log.e("des,", String.valueOf(milisecondEnd));
 
                 String param = (isPrivate.isChecked()) ? "true" : "false";
                 Retrofit retrofit = RetrofitClient.getClient();

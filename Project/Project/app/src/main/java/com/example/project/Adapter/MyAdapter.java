@@ -48,7 +48,6 @@ public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.ViewHolder> imple
         mListTourFull=new ArrayList<>(contacts);
     };
 
-
     @Override
     public MyAdapter.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
 

@@ -18,7 +18,7 @@ public class MyMember {
     private String avatar;
     @SerializedName("isHost")
     @Expose
-    private Boolean isHost;
+    private boolean isHost;
 
     public Integer getId() {
         return id;
@@ -29,8 +29,6 @@ public class MyMember {
     }
 
     public String getName() {
-        if(name==null)
-            return "null";
         return name;
     }
 
@@ -54,12 +52,11 @@ public class MyMember {
         this.avatar = avatar;
     }
 
-    public Boolean getIsHost() {
+    public boolean isHost() {
         return isHost;
     }
 
-    public void setIsHost(Boolean isHost) {
-        this.isHost = isHost;
+    public void setHost(boolean host) {
+        isHost = host;
     }
-
 }
