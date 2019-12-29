@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.project">
+    package="com.ygaps.travelapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,7 +11,7 @@
     <uses-permission android:name="com.example.project.permission.MAPS_RECEIVE" />
 
     <permission
-        android:name="com.example.project.permission.MAPS_RECEIVE"
+        android:name="com.ygaps.travelapp.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <application
@@ -24,7 +24,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.UpdatePassword"></activity>
+        <activity android:name=".Activity.NotificationActivity"></activity>
+
+        <service android:name=".Network.MyFirebaseService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".Activity.UpdatePassword" />
         <activity android:name=".Activity.EditProfile" />
         <activity android:name=".Activity.ActivitySetting" />
         <activity android:name=".Activity.FollowTourActivity" />
