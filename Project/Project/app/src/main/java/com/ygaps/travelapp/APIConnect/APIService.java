@@ -98,7 +98,7 @@ public interface APIService {
 
     @POST("/tour/comment")
     @FormUrlEncoded
-    Call<String> sendComment( @Header("Authorization") String token,@Field("tourId") String tourId, @Field("userId") String userId,@Field("comment") String comment);
+    Call<ResponseBody> sendComment( @Header("Authorization") String token,@Field("tourId") String tourId, @Field("userId") String userId,@Field("comment") String comment);
     @GET("/tour/info")
 
     Call<InfoTourResponse> getResponseInfoTour(@Header("Authorization") String token,@Query("tourId") int n);

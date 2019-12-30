@@ -20,8 +20,10 @@ import android.widget.TextView;
 import com.ygaps.travelapp.APIConnect.APIService;
 import com.ygaps.travelapp.APIConnect.InfoTourResponse;
 import com.ygaps.travelapp.APIConnect.MyMember;
+import com.ygaps.travelapp.APIConnect.ResponseBody;
 import com.ygaps.travelapp.APIConnect.RetrofitClient;
 import com.ygaps.travelapp.APIConnect.StopPointObjectEdit;
+import com.ygaps.travelapp.APIConnect.UserInfoResponse;
 import com.ygaps.travelapp.APIConnect.commentList;
 import com.ygaps.travelapp.APIConnect.listCommentResponse;
 import com.ygaps.travelapp.Adapter.commentAdapter;
@@ -104,12 +106,26 @@ public class Detail extends Fragment {
         apiService.getResponseInfoTour(token,id).enqueue(new Callback<InfoTourResponse>() {
                                                              @Override
                                                              public void onResponse(Call<InfoTourResponse> call, Response<InfoTourResponse> response) {
-                                                                 ((TextView)view.findViewById(R.id.tvName1)).setText(response.body().getName());
+                                                                 Retrofit retrofit = RetrofitClient.getClient();
+                                                                 APIService apiService = retrofit.create(APIService.class);
+                                                                 apiService.getUsetInfo(token).enqueue(new Callback<UserInfoResponse>() {
+                                                                     @Override
+                                                                     public void onResponse(Call<UserInfoResponse> call, Response<UserInfoResponse> response) {
+                                                                         ((TextView)view.findViewById(R.id.tvNamecmour)).setText(response.body().getFullName());
 
+                                                                     }
+
+                                                                     @Override
+                                                                     public void onFailure(Call<UserInfoResponse> call, Throwable t) {
+
+                                                                     }
+                                                                 });
+
+
+                                                                 ((TextView)view.findViewById(R.id.tvName1)).setText(response.body().getName());
                                                                  ((TextView)view.findViewById(R.id.tvLich)).setText(response.body().getStartDate()+" - "+response.body().getEndDate());
                                                                  ((TextView)view.findViewById(R.id.tvNguoi1)).setText(response.body().getAdults().toString());
                                                                  ((TextView)view.findViewById(R.id.tvNguoi2)).setText(response.body().getChilds().toString());
-
                                                                  ((TextView)view.findViewById(R.id.tvGia)).setText(response.body().getMinCost()+" - "+response.body().getMaxCost());
                                                                  apiService.getComment(token,id,1,200).enqueue(new Callback<listCommentResponse>() {
                                                                      @Override
@@ -183,58 +199,54 @@ public class Detail extends Fragment {
                                                                          edtext.setText("");
                                                                          Retrofit retrofit1 = RetrofitClient.getClient();
                                                                          final APIService apiService1 = retrofit1.create(APIService.class);
-                                                                         apiService1.sendComment(token,id.toString(),"336",X).enqueue(new Callback<String>() {
+                                                                         apiService1.sendComment(token,id.toString(),"336",X).enqueue(new Callback<ResponseBody>() {
                                                                              @Override
-                                                                             public void onResponse(Call<String> call, Response<String> response) {
+                                                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                                 apiService1.getComment(token,id,1,200).enqueue(new Callback<listCommentResponse>() {
+                                                                                     @Override
+                                                                                     public void onResponse(Call<listCommentResponse> call, Response<listCommentResponse> response) {
 
-
-                                                                                 if(response.isSuccessful())
-                                                                                 {
-                                                                                 }
-                                                                             }
-                                                                             @Override
-                                                                             public void onFailure(Call<String> call, Throwable t) {
-
-                                                                             }
-                                                                         });
-                                                                         apiService1.getComment(token,id,1,200).enqueue(new Callback<listCommentResponse>() {
-                                                                             @Override
-                                                                             public void onResponse(Call<listCommentResponse> call, Response<listCommentResponse> response) {
-
-                                                                                 if(response.isSuccessful())
-                                                                                 {
-
-
-                                                                                     final ArrayList<commentList> list;
-                                                                                     list = (ArrayList<commentList>) response.body().getCommentList();
-                                                                                     ArrayList<commentList> list1 = new ArrayList<commentList>();
-                                                                                     int j=0;
-                                                                                     for(int i=0;i<list.size();i++)
-                                                                                     {
-
-                                                                                         if(list.get(i).getComment().isEmpty()==false)
+                                                                                         if(response.isSuccessful())
                                                                                          {
 
-                                                                                             if(list.get(i).getName().isEmpty()==false)
-                                                                                             { list1.add(j,list.get(i));
-                                                                                                 j++;}
+
+                                                                                             final ArrayList<commentList> list;
+                                                                                             list = (ArrayList<commentList>) response.body().getCommentList();
+                                                                                             ArrayList<commentList> list1 = new ArrayList<commentList>();
+                                                                                             int j=0;
+                                                                                             for(int i=0;i<list.size();i++)
+                                                                                             {
+
+                                                                                                 if(list.get(i).getComment().isEmpty()==false)
+                                                                                                 {
+
+                                                                                                     if(list.get(i).getName().isEmpty()==false)
+                                                                                                     { list1.add(j,list.get(i));
+                                                                                                         j++;}
+                                                                                                 }
+                                                                                             }
+                                                                                             RecyclerView listComment;
+                                                                                             listComment=((RecyclerView)view.findViewById(R.id.rvComment));
+                                                                                             commentAdapter cmadapter = new commentAdapter(list1);
+                                                                                             listComment.setAdapter(cmadapter);
+                                                                                             listComment.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                                                                                             // Toast.makeText(getActivity(),list1.get(0).getComment(),Toast.LENGTH_SHORT).show();
                                                                                          }
                                                                                      }
-                                                                                     RecyclerView listComment;
-                                                                                     listComment=((RecyclerView)view.findViewById(R.id.rvComment));
-                                                                                     commentAdapter cmadapter = new commentAdapter(list1);
-                                                                                     listComment.setAdapter(cmadapter);
-                                                                                     listComment.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                                                                                     // Toast.makeText(getActivity(),list1.get(0).getComment(),Toast.LENGTH_SHORT).show();
-                                                                                 }
+                                                                                     @Override
+                                                                                     public void onFailure(Call<listCommentResponse> call, Throwable t) {
+
+                                                                                     }
+                                                                                 });
                                                                              }
-
                                                                              @Override
-                                                                             public void onFailure(Call<listCommentResponse> call, Throwable t) {
+                                                                             public void onFailure(Call<ResponseBody> call, Throwable t) {
 
                                                                              }
                                                                          });
+                              ////
                                                                      }
                                                                  });
                                                                  //  Toast.makeText(getActivity(),response.body().getId().toString(),Toast.LENGTH_SHORT).show();

@@ -139,7 +139,7 @@ public class TourInvation {
     public String getStartDate() {
         try{
             long t=Long.parseLong(startDate);
-            SimpleDateFormat sdf = new SimpleDateFormat("E, dd MM yyyy ");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");
             Date date = new Date(t);
             return sdf.format(date).toString();}
         catch (Exception e){}
@@ -153,7 +153,7 @@ public class TourInvation {
     public String getEndDate() {
         try{
             long t=Long.parseLong(endDate);
-            SimpleDateFormat sdf = new SimpleDateFormat("E, dd MM yyyy ");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");
             Date date = new Date(t);
             return sdf.format(date).toString();}
         catch (Exception e){}
@@ -191,7 +191,7 @@ public class TourInvation {
     public String getCreatedOn() {
         try{
             long t=Long.parseLong(createdOn);
-            SimpleDateFormat sdf = new SimpleDateFormat("E, dd MM yyyy ");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");
             Date date = new Date(t);
             return sdf.format(date).toString();}
         catch (Exception e){}

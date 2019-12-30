@@ -75,6 +75,22 @@ public class LoginActivity extends AppCompatActivity {
                                 if(response.isSuccessful())
                                 {
                                     String token=response.body().getToken();
+                                    Retrofit retrofit = RetrofitClient.getClient();
+                                    APIService apiService = retrofit.create(APIService.class);
+                                    Log.e("lalLOLLogin",FirebaseInstanceId.getInstance().getToken());
+
+                                    String deviceId= Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID);
+                                    apiService.Registerfirebase(response.body().getToken(), FirebaseInstanceId.getInstance().getToken(),deviceId,1,"1.0").enqueue(new Callback<ResponseBody>() {
+                                        @Override
+                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                            Log.e("ket qua day",  response.body().getMessage());
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                        }
+                                    });
                                     //Toast.makeText(LoginActivity.this, "Login Facebook successfully", Toast.LENGTH_SHORT).show();
                                     sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -10,6 +10,7 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -31,7 +32,11 @@ import com.ygaps.travelapp.Adapter.InvationAdapter;
 import com.ygaps.travelapp.Adapter.MyAdapter;
 import com.ygaps.travelapp.R;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -116,6 +121,7 @@ public class NotificationActivity extends AppCompatActivity {
         });
         SharedPreferences shared = getSharedPreferences("tokenUser",MODE_PRIVATE);
         token = (shared.getString("token", ""));
+        showMission();
         Log.e("FCMtokenNoti", token);
         intent = getIntent();
         try{
@@ -123,11 +129,8 @@ public class NotificationActivity extends AppCompatActivity {
        }catch (Exception e) {
 
         }
-        showMission();
+
     }
-
-
-
     private void process() {
 
         String action="kkk";
@@ -176,15 +179,34 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void showMission() {
-
-
-
         Retrofit retrofit = RetrofitClient.getClient();
         APIService apiService = retrofit.create(APIService.class);
         apiService.getInvation(token,1,100).enqueue(new Callback<InivationResponse>() {
             @Override
             public void onResponse(Call<InivationResponse> call, Response<InivationResponse> response) {
                 final ArrayList<TourInvation> list= (ArrayList<TourInvation>) response.body().getTours();
+
+                for (int i = list.size()-1; i > 0; i--) {
+                    	for (int k = 0; k < i; k++) {
+                    	    Date datetemp;
+                    	    Date dateList;
+                    	    TourInvation temp=list.get(k);
+                            try {
+                                java.text.SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");
+                                datetemp = sdf.parse(temp.getCreatedOn());
+                                dateList=sdf.parse((list.get(k+1).getCreatedOn()));
+                                if (datetemp.compareTo(dateList)<0) {
+                                    list.set(k,list.get(k+1));
+                                    list.set(k+1,temp);
+                                }
+                            } catch (ParseException ex) {
+                                ex.printStackTrace(); // or log it using a logging framework
+                            }
+
+                        }
+                    }
+
+
                 RecyclerView listView=(RecyclerView) findViewById(R.id.rvNotification);
                 InvationAdapter adapter=new InvationAdapter(list,NotificationActivity.this);
                 listView.setAdapter(adapter);
@@ -207,12 +229,9 @@ public class NotificationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 showMission();
-
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
             }
         });
     }
